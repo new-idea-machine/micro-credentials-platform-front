@@ -1,6 +1,8 @@
 import './App.css'
 
-const serverURL = "localhost:5001";
+const serverURL = import.meta.env.VITE_SERVER_URL_ROOT;
+
+console.assert(serverURL?.length > 0, "Server URL not specified -- add \"VITE_SERVER_URL_ROOT=<url>\" to .env");
 
 async function submit(submitEvent) {
   submitEvent.preventDefault();
