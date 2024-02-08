@@ -1,7 +1,19 @@
+// ============================================================================
+// IMPORTS
+// ============================================================================
+
 import {createContext, useState} from "react";
 import PropTypes from "prop-types";
 
-export const UserContext = createContext(null);
+// ============================================================================
+// GLOBAL CONSTANTS
+// ============================================================================
+
+const UserContext = createContext(null);
+
+// ============================================================================
+// CONTEXT DEFINITION
+// ============================================================================
 
 function UserContextProvider({children}) {
   const [userInfo, setUserInfo] = useState(null);
@@ -16,4 +28,8 @@ UserContextProvider.propTypes = {
   children:  PropTypes.object
 };
 
-export default UserContextProvider;
+// ============================================================================
+// EXPORTS
+// ============================================================================
+
+export {UserContext, UserContextProvider};
