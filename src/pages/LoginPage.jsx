@@ -98,42 +98,57 @@ function LoginPage() {
         body: JSON.stringify(data)
       }
 
+      let response;
+      let result;
+
       try {
-        const response = await fetch(`${serverURL}/user`, options);
-        const result = await response?.json();
+        response = await fetch(`${serverURL}/user`, options);
 
-        /*
-        Finally, if the server successfully added the user to the database then
-        set the user information context with all of the information available.
-        If not then display an appropriate message.
-        */
-
-        if (response.ok && result?.userUID) {
-          const newUserInfo = {
-            userUID: result.userUID,
-            name:    formElements.Name.value,
-            email:   formElements.Email.value
-          };
-
-          setUserInfo(newUserInfo);
+        try {
+          result = await response.json();
         }
-        else if (response.status == 403) {
-          window.alert("Registration failed.\n\nA user with these login credentials is already registered.");
-        }
-        else if (response.status == 406) {
-          console.log(`HTTP response code 406 -- "${result?.msg}"`);
-          window.alert("Registration failed.\n\nThe server couldn't make sense of the data that was sent to it.");
-        }
-        else if (response.status == 503) {
-          window.alert("Registration failed.\n\nThe server couldn't access the database.");
-        }
-        else {
-          console.log(`HTTP response code ${response.status} -- "${result?.msg}"`);
-          window.alert("Registration failed.\n\nThis application is having a bad day.  Please reload or try again later.");
+        catch(error) {
+          result = null;
         }
       }
       catch(error) {
+        response = null;
+      }
+
+      /*
+      Finally, if the server successfully added the user to the database then
+      set the user information context with all of the information available.
+      If not then display an appropriate message.
+      */
+
+      if (response == null) {
         window.alert("Registration failed.\n\nThe server could not be accessed.  Please try again later.");
+      }
+      else if (response.status == 403) {
+        window.alert("Registration failed.\n\nA user with these login credentials is already registered.");
+      }
+      else if (response.status == 406) {
+        console.log(`HTTP response code 406 -- "${result?.msg}"`);
+        window.alert("Registration failed.\n\nThe server couldn't make sense of the data that was sent to it.");
+      }
+      else if (response.status == 503) {
+        window.alert("Registration failed.\n\nThe server couldn't access the database.");
+      }
+      else if (!response.ok) {
+        console.log(`HTTP response code ${response.status} -- "${result?.msg}"`);
+        window.alert("Registration failed.\n\nThis application is having a bad day.  Please reload or try again later.");
+      }
+      else if (!result?.userUID) {
+        window.alert("Registration may have failed.\n\nThe response from the server was not understood.");
+      }
+      else {
+        const newUserInfo = {
+          userUID: result.userUID,
+          name:    formElements.Name.value,
+          email:   formElements.Email.value
+        };
+
+        setUserInfo(newUserInfo);
       }
     }
 
