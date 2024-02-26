@@ -74,7 +74,7 @@ function Register({credentials, setCredentials}) {
       window.alert("\"Name\" is required.");
     }
 
-    if (data.userInfo.email !== credentials.email) {
+    if (data.password !== credentials.password) {
       dataIsValid = false;
 
       window.alert("That's not the same password!");
