@@ -5,6 +5,8 @@
 import {useContext} from "react";
 import {UserContext} from "../contexts/UserContext";
 
+import {sendRequest} from "../scripts/sendrequest.js";
+
 // ============================================================================
 // GLOBAL CONSTANTS
 // ============================================================================
@@ -85,29 +87,8 @@ function Register({credentials, setCredentials}) {
       If the data is valid then send it off to the backend!
       */
 
-      const options =  {
-        method: "POST",
-        mode: "cors",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
-      }
-
-      let response;
-      let result;
-
-      try {
-        response = await fetch(`${serverURL}/user`, options);
-
-        try {
-          result = await response.json();
-        }
-        catch(error) {
-          result = null;
-        }
-      }
-      catch(error) {
-        response = null;
-      }
+      const [response, result] = await sendRequest("POST", `${serverURL}/user`,
+                                 JSON.stringify(data), "application/json");
 
       /*
       Finally, if the server successfully added the user to the database then

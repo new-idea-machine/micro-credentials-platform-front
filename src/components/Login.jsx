@@ -6,6 +6,8 @@ import {useContext} from "react";
 import validator from "validator";
 import {UserContext} from "../contexts/UserContext";
 
+import {sendRequest} from "../scripts/sendrequest.js";
+
 // ============================================================================
 // GLOBAL CONSTANTS
 // ============================================================================
@@ -47,8 +49,6 @@ function Login({setCredentials}) {
 
     submitEvent.preventDefault();
 
-    console.log("Submitting request...");
-
     /*
     First, get the information from the login form and package it into a
     JavaScript object to send to the backend.
@@ -85,30 +85,11 @@ function Login({setCredentials}) {
       /*
       If the data is valid then send it off to the backend!
       */
+      const resource = `${serverURL}/` +
+                       `user?email=${encodeURIComponent(data.email)}&` +
+                       `password=${encodeURIComponent(data.password)}`
 
-      const options =  {
-        method: "GET",
-        mode: "cors"
-      }
-
-      let response;
-      let result;
-
-      try {
-        response = await fetch(`${serverURL}/` +
-          `user?email=${encodeURIComponent(data.email)}&` +
-          `password=${encodeURIComponent(data.password)}`, options);
-
-        try {
-          result = await response.json();
-        }
-        catch(error) {
-          result = null;
-        }
-      }
-      catch(error) {
-        response = null;
-      }
+      const [response, result] = await sendRequest("GET", resource);
 
       /*
       Finally, if the server successfully found the user in the database and
