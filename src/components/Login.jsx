@@ -3,6 +3,7 @@
 // ============================================================================
 
 import {useContext} from "react";
+import PropTypes from "prop-types";
 import validator from "validator";
 import {UserContext} from "../contexts/UserContext";
 
@@ -160,6 +161,10 @@ function Login({setCredentials}) {
     </>
   )
 }
+
+Login.propTypes = {
+  setCredentials:  PropTypes.func.isRequired
+};
 
 // ============================================================================
 // EXPORTS

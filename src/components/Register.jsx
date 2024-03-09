@@ -3,6 +3,7 @@
 // ============================================================================
 
 import {useContext} from "react";
+import PropTypes from "prop-types";
 import {UserContext} from "../contexts/UserContext";
 
 import {sendRequest} from "../scripts/sendrequest.js";
@@ -60,8 +61,6 @@ function Register({credentials, setCredentials}) {
       password: formElements.Password.value,
       isInstructor:  formElements.IsInstructor.value
     };
-
-    console.log(data);
 
     /*
     Next, before sending this information off, do some validation.
@@ -178,6 +177,11 @@ function Register({credentials, setCredentials}) {
     </>
   )
 }
+
+Register.propTypes = {
+  credentials:     PropTypes.object.isRequired,
+  setCredentials:  PropTypes.func.isRequired
+};
 
 // ============================================================================
 // EXPORTS
