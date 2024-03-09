@@ -58,8 +58,10 @@ function Register({credentials, setCredentials}) {
         email: credentials.email
       },
       password: formElements.Password.value,
-      isInstructor:  false
+      isInstructor:  formElements.IsInstructor.value
     };
+
+    console.log(data);
 
     /*
     Next, before sending this information off, do some validation.
@@ -134,7 +136,13 @@ function Register({credentials, setCredentials}) {
 
   return (
     <>
-      <h1>&quot;{credentials.email}&quot; Isn&apos;t Registered</h1>
+      <h1>Are You a New User?</h1>
+
+      <p>
+        We&apos;re asking because
+        {" "}<b>&quot;{credentials.email}&quot;</b> wasn&apos;t found in our
+        list of registered users.
+      </p>
 
       <hr />
 
@@ -146,17 +154,22 @@ function Register({credentials, setCredentials}) {
       <form id="RegistrationForm" onSubmit={submit}>
         Name:<br />
         <input name="Name" type="text" /><br />
-        Password:<br />
+        Password (again):<br />
         <input name="Password" type="password" /><br />
-
-        <input type="submit" />
+        I am a:<br />
+        <select name="IsInstructor" defaultValue="false">
+          <option value="false">Learner</option>
+          <option value="true">Instructor</option>
+        </select><br />
+        <br />
+        <input type="submit" value="Register" />
       </form>
 
       <hr />
 
       <p>
-        If you&apos;re sure that you&apos;re registered then you can try using
-        different credentials.
+        If you&apos;re sure that you&apos;re already registered then you can
+        try using different credentials.
       </p>
 
       <button onClick={() => setCredentials(null)}>

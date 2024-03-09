@@ -15,7 +15,7 @@ function HomePage() {
   return (
     <>
       <p>
-        New learner user registration was succesful.
+        User information:
       </p>
 
       <table border={2}>

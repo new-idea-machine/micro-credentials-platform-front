@@ -155,7 +155,7 @@ function Login({setCredentials}) {
         Password:<br />
         <input name="Password" type="password" /><br />
 
-        <input type="submit" />
+        <input type="submit" value="Log In or Register" />
       </form>
     </>
   )
