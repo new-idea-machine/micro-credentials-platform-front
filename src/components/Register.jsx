@@ -1,36 +1,38 @@
-// ============================================================================
+// ============================================================================================
 // IMPORTS
-// ============================================================================
+// ============================================================================================
 
-import {useContext} from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
-import {UserContext} from "../contexts/UserContext";
+import { UserContext } from "../contexts/UserContext";
 
-import {sendRequest} from "../scripts/sendrequest.js";
+import { sendRequest } from "../scripts/sendrequest.js";
 
-// ============================================================================
+// ============================================================================================
 // GLOBAL CONSTANTS
-// ============================================================================
+// ============================================================================================
 
 const serverURL = import.meta.env.VITE_SERVER_URL_ROOT;
 
-// ============================================================================
+// ============================================================================================
 // GLOBAL ASSERTIONS
-// ============================================================================
+// ============================================================================================
 
-console.assert(serverURL?.length > 0, "Server URL not specified -- add " +
-  "\"VITE_SERVER_URL_ROOT=<url>\" to .env");
+console.assert(
+  serverURL?.length > 0,
+  "Server URL not specified -- add " + '"VITE_SERVER_URL_ROOT=<url>" to .env'
+);
 
-// ============================================================================
+// ============================================================================================
 // COMPONENT DEFINITION
-// ============================================================================
+// ============================================================================================
 
-/*****************************************************************************/
+/*********************************************************************************************/
 
-function Register({credentials, setCredentials}) {
-  const {setUserInfo} = useContext(UserContext);
+function Register({ credentials, setCredentials }) {
+  const { setUserInfo } = useContext(UserContext);
 
-  /***************************************************************************/
+  /*******************************************************************************************/
 
   async function submit(submitEvent) {
     /*
@@ -59,7 +61,7 @@ function Register({credentials, setCredentials}) {
         email: credentials.email
       },
       password: formElements.Password.value,
-      isInstructor:  formElements.IsInstructor.value
+      isInstructor: formElements.IsInstructor.value
     };
 
     /*
@@ -74,7 +76,7 @@ function Register({credentials, setCredentials}) {
     if (data.userInfo.name === "") {
       dataIsValid = false;
 
-      window.alert("\"Name\" is required.");
+      window.alert('"Name" is required.');
     }
 
     if (data.password !== credentials.password) {
@@ -88,8 +90,12 @@ function Register({credentials, setCredentials}) {
       If the data is valid then send it off to the backend!
       */
 
-      const [response, result] = await sendRequest("POST", `${serverURL}/user`,
-                                 JSON.stringify(data), "application/json");
+      const [response, result] = await sendRequest(
+        "POST",
+        `${serverURL}/user`,
+        JSON.stringify(data),
+        "application/json"
+      );
 
       /*
       Finally, if the server successfully added the user to the database then
@@ -98,30 +104,36 @@ function Register({credentials, setCredentials}) {
       */
 
       if (response === null) {
-        window.alert("Registration failed.\n\nThe server could not be accessed.  Please try again later.");
-      }
-      else if (response.status === 403) {
-        window.alert("Registration failed.\n\nA user with these login credentials is already registered.");
-      }
-      else if (response.status === 406) {
+        window.alert(
+          "Registration failed.\n\nThe server could not be accessed.  Please try again later."
+        );
+      } else if (response.status === 403) {
+        window.alert(
+          "Registration failed.\n\nA user with these login credentials is already registered."
+        );
+      } else if (response.status === 406) {
         console.log(`HTTP response code 406 -- "${result?.msg}"`);
-        window.alert("Registration failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later.");
-      }
-      else if (response.status === 503) {
-        window.alert("Registration failed.\n\nThe server couldn't access the database.  Please try again later.");
-      }
-      else if (!response.ok) {
+        window.alert(
+          "Registration failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later."
+        );
+      } else if (response.status === 503) {
+        window.alert(
+          "Registration failed.\n\nThe server couldn't access the database.  Please try again later."
+        );
+      } else if (!response.ok) {
         console.log(`HTTP response code ${response.status} -- "${result?.msg}"`);
-        window.alert("Registration failed.\n\nThis application is having a bad day.  Please reload or try again later.");
-      }
-      else if (!result?.userUID) {
-        window.alert("Registration may have failed.\n\nThe response from the server was not understood.");
-      }
-      else {
+        window.alert(
+          "Registration failed.\n\nThis application is having a bad day.  Please reload or try again later."
+        );
+      } else if (!result?.userUID) {
+        window.alert(
+          "Registration may have failed.\n\nThe response from the server was not understood."
+        );
+      } else {
         const newUserInfo = {
           userUID: result.userUID,
-          name:    formElements.Name.value,
-          email:   credentials.email
+          name: formElements.Name.value,
+          email: credentials.email
         };
 
         setUserInfo(newUserInfo);
@@ -131,35 +143,40 @@ function Register({credentials, setCredentials}) {
     return;
   }
 
-  /***************************************************************************/
+  /*******************************************************************************************/
 
   return (
     <>
       <h1>Are You a New User?</h1>
 
       <p>
-        We&apos;re asking because
-        {" "}<b>&quot;{credentials.email}&quot;</b> wasn&apos;t found in our
-        list of registered users.
+        We&apos;re asking because <b>&quot;{credentials.email}&quot;</b> wasn&apos;t found in
+        our list of registered users.
       </p>
 
       <hr />
 
       <p>
-        If you are a new user then please complete your registration by
-        filling in and submitting this form:
+        If you are a new user then please complete your registration by filling in and
+        submitting this form:
       </p>
 
       <form id="RegistrationForm" onSubmit={submit}>
-        Name:<br />
-        <input name="Name" type="text" /><br />
-        Password (again):<br />
-        <input name="Password" type="password" /><br />
-        I am a:<br />
+        Name:
+        <br />
+        <input name="Name" type="text" />
+        <br />
+        Password (again):
+        <br />
+        <input name="Password" type="password" />
+        <br />
+        I am a:
+        <br />
         <select name="IsInstructor" defaultValue="false">
           <option value="false">Learner</option>
           <option value="true">Instructor</option>
-        </select><br />
+        </select>
+        <br />
         <br />
         <input type="submit" value="Register" />
       </form>
@@ -167,24 +184,22 @@ function Register({credentials, setCredentials}) {
       <hr />
 
       <p>
-        If you&apos;re sure that you&apos;re already registered then you can
-        try using different credentials.
+        If you&apos;re sure that you&apos;re already registered then you can try using different
+        credentials.
       </p>
 
-      <button onClick={() => setCredentials(null)}>
-        Go back to login screen.
-      </button>
+      <button onClick={() => setCredentials(null)}>Go back to login screen.</button>
     </>
-  )
+  );
 }
 
 Register.propTypes = {
-  credentials:     PropTypes.object.isRequired,
-  setCredentials:  PropTypes.func.isRequired
+  credentials: PropTypes.object.isRequired,
+  setCredentials: PropTypes.func.isRequired
 };
 
-// ============================================================================
+// ============================================================================================
 // EXPORTS
-// ============================================================================
+// ============================================================================================
 
 export default Register;

@@ -1,37 +1,39 @@
-// ============================================================================
+// ============================================================================================
 // IMPORTS
-// ============================================================================
+// ============================================================================================
 
-import {useContext} from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 import validator from "validator";
-import {UserContext} from "../contexts/UserContext";
+import { UserContext } from "../contexts/UserContext";
 
-import {sendRequest} from "../scripts/sendrequest.js";
+import { sendRequest } from "../scripts/sendrequest.js";
 
-// ============================================================================
+// ============================================================================================
 // GLOBAL CONSTANTS
-// ============================================================================
+// ============================================================================================
 
 const serverURL = import.meta.env.VITE_SERVER_URL_ROOT;
 
-// ============================================================================
+// ============================================================================================
 // GLOBAL ASSERTIONS
-// ============================================================================
+// ============================================================================================
 
-console.assert(serverURL?.length > 0, "Server URL not specified -- add " +
-  "\"VITE_SERVER_URL_ROOT=<url>\" to .env");
+console.assert(
+  serverURL?.length > 0,
+  'Server URL not specified -- add "VITE_SERVER_URL_ROOT=<url>" to .env'
+);
 
-// ============================================================================
+// ============================================================================================
 // COMPONENT DEFINITION
-// ============================================================================
+// ============================================================================================
 
-/*****************************************************************************/
+/*********************************************************************************************/
 
-function Login({setCredentials}) {
-  const {setUserInfo} = useContext(UserContext);
+function Login({ setCredentials }) {
+  const { setUserInfo } = useContext(UserContext);
 
-  /***************************************************************************/
+  /*******************************************************************************************/
 
   async function submit(submitEvent) {
     /*
@@ -79,16 +81,19 @@ function Login({setCredentials}) {
     if (data.password === "") {
       dataIsValid = false;
 
-      window.alert("You call that a password?  My mother can pick a better password than that!");
+      window.alert(
+        "You call that a password?  My mother can pick a better password than that!"
+      );
     }
 
     if (dataIsValid) {
       /*
       If the data is valid then send it off to the backend!
       */
-      const resource = `${serverURL}/` +
-                       `user?email=${encodeURIComponent(data.email)}&` +
-                       `password=${encodeURIComponent(data.password)}`
+      const resource =
+        `${serverURL}/` +
+        `user?email=${encodeURIComponent(data.email)}&` +
+        `password=${encodeURIComponent(data.password)}`;
 
       const [response, result] = await sendRequest("GET", resource);
 
@@ -102,32 +107,35 @@ function Login({setCredentials}) {
       */
 
       if (response === null) {
-        window.alert("Login failed.\n\nThe server could not be accessed.  Please try again later.");
-      }
-      else if (response.status === 403) {
+        window.alert(
+          "Login failed.\n\nThe server could not be accessed.  Please try again later."
+        );
+      } else if (response.status === 403) {
         window.alert("Login failed.\n\nThat was the wrong password.");
-      }
-      else if (response.status === 404) {
+      } else if (response.status === 404) {
         setCredentials(data);
-      }
-      else if (response.status === 406) {
+      } else if (response.status === 406) {
         console.log(`HTTP response code 406 -- "${result?.msg}"`);
-        window.alert("Login failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later");
-      }
-      else if (response.status === 503) {
-        window.alert("Login failed.\n\nThe server couldn't access the database.  Please try again later.");
-      }
-      else if (!response.ok) {
-        window.alert("Login failed.\n\nThis application is having a bad day.  Please reload or try again later.");
-      }
-      else if (!result?.userUID) {
-        window.alert("Login failed.\n\nThe response from the server was not understood.  Please reload or try again later");
-      }
-      else {
+        window.alert(
+          "Login failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later"
+        );
+      } else if (response.status === 503) {
+        window.alert(
+          "Login failed.\n\nThe server couldn't access the database.  Please try again later."
+        );
+      } else if (!response.ok) {
+        window.alert(
+          "Login failed.\n\nThis application is having a bad day.  Please reload or try again later."
+        );
+      } else if (!result?.userUID) {
+        window.alert(
+          "Login failed.\n\nThe response from the server was not understood.  Please reload or try again later"
+        );
+      } else {
         const newUserInfo = {
           userUID: result.userUID,
-          name:    result.name,
-          email:   formElements.Email.value
+          name: result.name,
+          email: formElements.Email.value
         };
 
         setUserInfo(newUserInfo);
@@ -137,7 +145,7 @@ function Login({setCredentials}) {
     return;
   }
 
-  /***************************************************************************/
+  /*******************************************************************************************/
 
   return (
     <>
@@ -145,29 +153,29 @@ function Login({setCredentials}) {
 
       <hr />
 
-      <p>
-        Please log in or start registering by filling in and submitting this
-        form:
-      </p>
+      <p>Please log in or start registering by filling in and submitting this form:</p>
 
       <form id="LoginForm" onSubmit={submit}>
-        E-mail Address:<br />
-        <input name="Email" type="text" /><br />
-        Password:<br />
-        <input name="Password" type="password" /><br />
-
+        E-mail Address:
+        <br />
+        <input name="Email" type="text" />
+        <br />
+        Password:
+        <br />
+        <input name="Password" type="password" />
+        <br />
         <input type="submit" value="Log In or Register" />
       </form>
     </>
-  )
+  );
 }
 
 Login.propTypes = {
-  setCredentials:  PropTypes.func.isRequired
+  setCredentials: PropTypes.func.isRequired
 };
 
-// ============================================================================
+// ============================================================================================
 // EXPORTS
-// ============================================================================
+// ============================================================================================
 
 export default Login;
