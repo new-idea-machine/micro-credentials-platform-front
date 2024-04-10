@@ -36,7 +36,7 @@ const validMethods = [
 
 /*********************************************************************************************/
 
-export default async function sendRequest(method, resource, body = null, contentType = null) {
+export default async function sendRequest(method, resource, headers = null, body = null) {
   /*
   Send an HTTP request and return the response and the resource.
 
@@ -64,6 +64,8 @@ export default async function sendRequest(method, resource, body = null, content
     mode: "cors"
   };
 
+  if (headers) options.headers = headers;
+
   if (!validMethods.includes(method))
     throw new Error(`"${method}" is not a valid HTTP request method`);
 
@@ -71,10 +73,9 @@ export default async function sendRequest(method, resource, body = null, content
     if (method === "GET" || method === "HEAD")
       throw new Error('"body" can\'t be included in a GET or HEAD request');
 
-    if (contentType === null)
-      throw new Error('If "body" is specified then "contentType" must ' + "be specified, too");
+    if (headers === null || !headers.get("Content-Type"))
+      throw new Error('If "body" is specified then a "Content-Type" header must be included');
 
-    options.headers = { "Content-Type": contentType };
     options.body = body;
   }
 

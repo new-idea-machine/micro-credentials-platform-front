@@ -90,12 +90,11 @@ function Login({ setCredentials }) {
       /*
       If the data is valid then send it off to the backend!
       */
-      const resource =
-        `${serverURL}/` +
-        `user?email=${encodeURIComponent(data.email)}&` +
-        `password=${encodeURIComponent(data.password)}`;
+      const headers = new Headers();
 
-      const [response, result] = await sendRequest("GET", resource);
+      headers.append("Authorization", `Basic ${btoa(data.email + ":" + data.password)}`);
+
+      const [response, result] = await sendRequest("GET", `${serverURL}/auth`, headers);
 
       /*
       Finally, if the server successfully found the user in the database and
@@ -110,15 +109,10 @@ function Login({ setCredentials }) {
         window.alert(
           "Login failed.\n\nThe server could not be accessed.  Please try again later."
         );
-      } else if (response.status === 403) {
+      } else if (response.status === 401) {
         window.alert("Login failed.\n\nThat was the wrong password.");
       } else if (response.status === 404) {
         setCredentials(data);
-      } else if (response.status === 406) {
-        console.log(`HTTP response code 406 -- "${result?.msg}"`);
-        window.alert(
-          "Login failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later"
-        );
       } else if (response.status === 503) {
         window.alert(
           "Login failed.\n\nThe server couldn't access the database.  Please try again later."
@@ -127,16 +121,12 @@ function Login({ setCredentials }) {
         window.alert(
           "Login failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
-      } else if (!result?.userUID) {
+      } else if (!result?.access_token) {
         window.alert(
           "Login failed.\n\nThe response from the server was not understood.  Please reload or try again later"
         );
       } else {
-        const newUserInfo = {
-          userUID: result.userUID,
-          name: result.name,
-          email: formElements.Email.value
-        };
+        const newUserInfo = result;
 
         setUserInfo(newUserInfo);
       }

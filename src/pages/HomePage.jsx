@@ -19,16 +19,24 @@ function HomePage() {
       <table border={2}>
         <tbody>
           <tr>
-            <th>UID</th>
-            <td>{userInfo.userUID}</td>
+            <th>Access Token</th>
+            <td>{userInfo.access_token}</td>
           </tr>
           <tr>
             <th>Name</th>
-            <td>{userInfo.name}</td>
+            <td>{userInfo.user_info.name}</td>
           </tr>
           <tr>
             <th>E-mail</th>
-            <td>{userInfo.email}</td>
+            <td>{userInfo.user_info.email}</td>
+          </tr>
+          <tr>
+            <th>Learner Data</th>
+            <td>{JSON.stringify(userInfo.user_info.learnerData)}</td>
+          </tr>
+          <tr>
+            <th>Instructor Data</th>
+            <td>{JSON.stringify(userInfo.user_info.instructorData)}</td>
           </tr>
         </tbody>
       </table>
