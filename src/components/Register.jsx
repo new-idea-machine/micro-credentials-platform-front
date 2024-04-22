@@ -56,13 +56,10 @@ function Register({ credentials, setCredentials }) {
 
     const formElements = submitEvent.target.elements;
     const data = {
-      userInfo: {
-        name: formElements.Name.value,
-        email: credentials.email
-      },
-      password: formElements.Password.value,
-      isInstructor: formElements.IsInstructor.value
+      name: formElements.Name.value.trim(),
+      isInstructor: formElements.IsInstructor.value === "true"
     };
+    const password = formElements.Password.value;
 
     /*
     Next, before sending this information off, do some validation.
@@ -73,13 +70,13 @@ function Register({ credentials, setCredentials }) {
 
     let dataIsValid = true;
 
-    if (data.userInfo.name === "") {
+    if (data.name === "") {
       dataIsValid = false;
 
       window.alert('"Name" is required.');
     }
 
-    if (data.password !== credentials.password) {
+    if (password !== credentials.password) {
       dataIsValid = false;
 
       window.alert("That's not the same password!");
@@ -90,11 +87,16 @@ function Register({ credentials, setCredentials }) {
       If the data is valid then send it off to the backend!
       */
 
+      const headers = new Headers();
+
+      headers.append("Authorization", `Basic ${btoa(credentials.email + ":" + password)}`);
+      headers.append("Content-Type", "application/json");
+
       const [response, result] = await sendRequest(
         "POST",
-        `${serverURL}/user`,
-        JSON.stringify(data),
-        "application/json"
+        `${serverURL}/auth`,
+        headers,
+        JSON.stringify(data)
       );
 
       /*
@@ -125,18 +127,12 @@ function Register({ credentials, setCredentials }) {
         window.alert(
           "Registration failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
-      } else if (!result?.userUID) {
+      } else if (result?.token_type !== "Bearer") {
         window.alert(
           "Registration may have failed.\n\nThe response from the server was not understood."
         );
       } else {
-        const newUserInfo = {
-          userUID: result.userUID,
-          name: formElements.Name.value,
-          email: credentials.email
-        };
-
-        setUserInfo(newUserInfo);
+        setUserInfo(result);
       }
     }
 

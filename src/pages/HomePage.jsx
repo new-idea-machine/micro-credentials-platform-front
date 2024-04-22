@@ -23,20 +23,24 @@ function HomePage() {
             <td>{userInfo.access_token}</td>
           </tr>
           <tr>
+            <th>Token Type</th>
+            <td>{userInfo.token_type}</td>
+          </tr>
+          <tr>
             <th>Name</th>
-            <td>{userInfo.user_info.name}</td>
+            <td>{userInfo.user_data.name}</td>
           </tr>
           <tr>
             <th>E-mail</th>
-            <td>{userInfo.user_info.email}</td>
+            <td>{userInfo.user_data.email}</td>
           </tr>
           <tr>
             <th>Learner Data</th>
-            <td>{JSON.stringify(userInfo.user_info.learnerData)}</td>
+            <td>{JSON.stringify(userInfo.user_data.learnerData)}</td>
           </tr>
           <tr>
             <th>Instructor Data</th>
-            <td>{JSON.stringify(userInfo.user_info.instructorData)}</td>
+            <td>{JSON.stringify(userInfo.user_data.instructorData)}</td>
           </tr>
         </tbody>
       </table>
