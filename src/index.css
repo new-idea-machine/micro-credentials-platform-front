@@ -1,13 +1,22 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /*
+  Values for the following variables are taken from the Untapped Energy Brand Book.
+  */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Colour Palette */
 
-  font-synthesis: none;
+  --colour-background: white;
+  --colour-primary-1: #252422;  /* Raisin Black */
+  --colour-primary-2: #eb5e28;  /* Flame Orange */
+  --colour-primary-3: #f9df74;  /* Dandelion */
+
+  /* Typography */
+
+  --font-headers: Gabarito, sans-serif;
+  --font-body: Poppins, sans-serif;
+
+  /* Legibility Settings */
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,6 +32,9 @@ a:hover {
 }
 
 body {
+  background-color: var(--colour-background);
+  color: var(--colour-primary-1);
+  font-family: var(--font-body);
   margin: 0;
   display: flex;
   place-items: center;
@@ -30,39 +42,21 @@ body {
   min-height: 100vh;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headers);
+  font-weight: 600; /* Semibold */
+}
+
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-weight: bold;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button, input[type="button"], input[type="submit"], input[type="reset"] {
+  height: 3.6rem;
+  border-radius: 1.8rem;
+  border: none;
+  padding: 0rem 1.8rem;
+  background-color: var(--colour-primary-2);
+  color: var(--colour-background);
+  font-size: 120%;
 }
