@@ -4,6 +4,7 @@
 
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import Course from "../components/Course";
 
 // ============================================================================================
 // COMPONENT DEFINITION
@@ -36,7 +37,12 @@ function HomePage() {
           </tr>
           <tr>
             <th>Learner Data</th>
-            <td>{JSON.stringify(userInfo.user_data.learnerData)}</td>
+            <td>
+              Number of courses: {userInfo.user_data.learnerData.length}<br />
+              {userInfo.user_data.learnerData.map((course, index) => {
+                return <Course courseData={course} key={index} />
+              })}
+            </td>
           </tr>
           <tr>
             <th>Instructor Data</th>
@@ -46,7 +52,7 @@ function HomePage() {
       </table>
       <br />
 
-      <button onClick={() => setUserInfo(null)}>Go back to login screen.</button>
+      <button onClick={() => setUserInfo(null)}>Go Back to Login Screen</button>
     </>
   );
 }
