@@ -12,24 +12,27 @@ import PropTypes from "prop-types";
 
 function Assessment({ assessmentData }) {
   return (
-    <div>
-      <h3>{assessmentData.title}</h3>
+    <>
+      <h2>{assessmentData.title}</h2>
 
       <ol>
         {assessmentData.questions.map((question, index) => {
-          return <li key={index}>
-            {question.question}
-            {question.choices.map((choice, index) => {
-              return <div key={index}>{choice}</div>;
-            })}
-            <p>The correct answer is: <b>{question.choices[question.correctChoice]}</b></p>
-            {/* <p>The correct answer is: <b>{element.correctChoice}</b></p> */}
+          return (
+            <li key={index}>
+              <p>{question.question}</p>
+              {question.choices.map((choice, index) => {
+                return <div key={index}>{choice}</div>;
+              })}
+              <p>
+                The correct answer: <b>{question.choices[question.correctChoice]}</b>
+              </p>
 
-            <p>{question.explanation}</p>
-          </li>;
+              <p>{question.explanation}</p>
+            </li>
+          );
         })}
       </ol>
-    </div>
+    </>
   );
 }
 

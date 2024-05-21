@@ -11,17 +11,16 @@ import PropTypes from "prop-types";
 /*********************************************************************************************/
 
 function Module({ moduleData }) {
-
   return (
     <>
-      <h3>{moduleData?.title}</h3>
+      <h2>{moduleData?.title}</h2>
+
+      <p>{moduleData?.description}</p>
 
       <p>
-        {moduleData?.description}
-      </p>
-
-      <p>
-        <a href={moduleData?.url}>Link</a>
+        <a href={moduleData?.url} target="_blank" rel="noreferrer">
+          Show
+        </a>
       </p>
     </>
   );
