@@ -42,8 +42,8 @@ div.Card {
   display: inline-block;
   border-radius: 10px;
   border-style: none;
-  padding: 5px;
-  width: 276px;
+  padding: 10px;
+  width: 266px;
   height: 417px;
   background-color: var(--colour-primary-1);
   color: var(--colour-background);
