@@ -67,6 +67,11 @@ h1 {
   font-weight: bold;
 }
 
+hr {
+  border: solid 1px var(--colour-primary-1);
+  border-bottom-width: 0px;
+}
+
 nav {
   background-color: var(--colour-primary-2);
   color: var(--colour-background);

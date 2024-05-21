@@ -1,0 +1,16 @@
+div#Course {
+  aside {
+    margin-bottom: 1em;
+  }
+
+  section {
+    margin-top: 1em;
+  }
+
+  aside,
+  section {
+    border-radius: 10px;
+    border: solid 1px var(--colour-primary-1);
+    padding: 10px;
+  }
+}

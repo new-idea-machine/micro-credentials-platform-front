@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import Module from "./Module.jsx";
 import Assessment from "./Assessment.jsx";
 
+import "./Course.css";
+
 // ============================================================================================
 // COMPONENT DEFINITION
 // ============================================================================================
@@ -14,25 +16,34 @@ import Assessment from "./Assessment.jsx";
 
 function Course({ courseData }) {
   return (
-    <div>
-      <h2>{courseData.title}</h2>
-      <p>Instructor:  {courseData.instructor}</p>
+    <div id="Course">
+      <h1>{courseData.title}</h1>
+      <p>
+        <aside style={{ float: "inline-end" }}>
+          <b>Instructor:</b>
+          <br />
+          {courseData.instructor}
+        </aside>
 
-      <p>{courseData.description}</p>
+        {courseData.description}
+      </p>
 
-      <div>
+      <section style={{ clear: "both" }}>
         {courseData.components.map((component, index) => {
           return (
-            <p key={index}>
-              {component?.questions ? (
-                <Assessment assessmentData={component} />
-              ) : (
-                <Module moduleData={component} />
-              )}
-            </p>
+            <>
+              {index === 0 || <hr />}
+              <article key={index}>
+                {component?.questions ? (
+                  <Assessment assessmentData={component} />
+                ) : (
+                  <Module moduleData={component} />
+                )}
+              </article>
+            </>
           );
         })}
-      </div>
+      </section>
     </div>
   );
 }
