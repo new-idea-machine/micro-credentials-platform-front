@@ -3,31 +3,30 @@
 // ============================================================================================
 
 import { useContext } from "react";
-import { UserContext } from "./contexts/UserContext";
+import { UserContext } from "../contexts/UserContext";
 
-import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
-
-import NavBar from "./components/NavBar";
-
-import "./App.css";
+import "./NavBar.css";
 
 // ============================================================================================
 // COMPONENT DEFINITION
 // ============================================================================================
 
-function App() {
+/*********************************************************************************************/
+
+function NavBar() {
   const { userInfo } = useContext(UserContext);
 
-  return <>
-    <NavBar />
+  return (
+    <nav>
+      <img id="Logo" src="/assets/brandmark_white.svg" />
 
-    {userInfo == null ? <LoginPage /> : <HomePage />}
-  </>;
+      {userInfo ? <div id="Menu">Search Profile</div> : <div id="Menu">FAQ</div>}
+    </nav>
+  );
 }
 
 // ============================================================================================
 // EXPORTS
 // ============================================================================================
 
-export default App;
+export default NavBar;

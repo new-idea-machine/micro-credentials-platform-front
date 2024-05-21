@@ -51,6 +51,11 @@ h1 {
   font-weight: bold;
 }
 
+nav {
+  background-color: var(--colour-primary-2);
+  color: var(--colour-background);
+}
+
 button, input[type="button"], input[type="submit"], input[type="reset"] {
   height: 3.6rem;
   border-radius: 1.8rem;
