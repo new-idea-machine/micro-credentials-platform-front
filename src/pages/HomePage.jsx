@@ -4,7 +4,8 @@
 
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import Course from "../components/Course";
+import ResponsiveGrid from "../components/ResponsiveGrid";
+import CourseCard from "../components/CourseCard";
 
 // ============================================================================================
 // COMPONENT DEFINITION
@@ -15,9 +16,16 @@ function HomePage() {
 
   return (
     <>
-      <p>User information:</p>
+      <h1>Your Courses</h1>
 
-      <table border={2}>
+      <ResponsiveGrid minColumnWidth="329px" rowGap="43px">
+        {userInfo.user_data.learnerData.map((course, index) => {
+          return <CourseCard courseData={course} key={index} />;
+        })}
+      </ResponsiveGrid>
+      <br />
+
+      {/* <table border={2}>
         <tbody>
           <tr>
             <th>Access Token</th>
@@ -50,7 +58,7 @@ function HomePage() {
           </tr>
         </tbody>
       </table>
-      <br />
+      <br /> */}
 
       <button onClick={() => setUserInfo(null)}>Go Back to Login Screen</button>
     </>
