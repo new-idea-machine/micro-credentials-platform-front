@@ -113,7 +113,7 @@ function Login({ setCredentials }) {
         window.alert("Login failed.\n\nThat was the wrong password.");
       } else if (response.status === 404) {
         setCredentials(data);
-      } else if (response.status === 503) {
+      } else if (response.status === 504) {
         window.alert(
           "Login failed.\n\nThe server couldn't access the database.  Please try again later."
         );

@@ -118,7 +118,7 @@ function Register({ credentials, setCredentials }) {
         window.alert(
           "Registration failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later."
         );
-      } else if (response.status === 503) {
+      } else if (response.status === 504) {
         window.alert(
           "Registration failed.\n\nThe server couldn't access the database.  Please try again later."
         );
