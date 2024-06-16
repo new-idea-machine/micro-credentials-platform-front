@@ -64,8 +64,8 @@ function Register({ credentials, setCredentials }) {
     /*
     Next, before sending this information off, do some validation.
 
-    IMPORTANT NOTE:  As of this writing, what constitutes "valid data" hasn't
-    been specified, so validation is rather limited at the moment.
+    IMPORTANT NOTE:  As of this writing, what constitutes "valid data" hasn't been specified,
+    so validation is rather limited at the moment.
     */
 
     let dataIsValid = true;
@@ -129,7 +129,7 @@ function Register({ credentials, setCredentials }) {
         );
       } else if (result?.token_type !== "Bearer") {
         window.alert(
-          "Registration may have failed.\n\nThe response from the server was not understood."
+          "Registration may have failed.\n\nThe response from the server was not understood.  Please try logging in or try again later."
         );
       } else {
         setUserInfo(result);
@@ -184,7 +184,7 @@ function Register({ credentials, setCredentials }) {
         credentials.
       </p>
 
-      <button onClick={() => setCredentials(null)}>Go back to login screen.</button>
+      <button onClick={() => setCredentials({ email:  credentials.email, password:  credentials.password })}>Log In with Different Credentials</button>{" "}
     </>
   );
 }
