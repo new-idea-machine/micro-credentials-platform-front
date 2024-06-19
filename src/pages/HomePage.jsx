@@ -16,6 +16,10 @@ function HomePage() {
   const { userInfo, setUserInfo } = useContext(UserContext);
   const [course, setCourse] = useState(null);
 
+  const userCourses = userInfo?.user_data?.learnerData?.map
+    ? userInfo.user_data.learnerData
+    : [];
+
   if (course !== null) {
     return (
       <>
@@ -31,7 +35,7 @@ function HomePage() {
         <h1>Your Courses</h1>
 
         <ResponsiveGrid minColumnWidth="329px" rowGap="43px">
-          {userInfo.user_data.learnerData.map((course, index) => {
+          {userCourses.map((course, index) => {
             return (
               <CourseCard
                 courseData={course}
