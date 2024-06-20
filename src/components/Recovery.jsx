@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
+import { getFormData } from "../scripts/getFormData.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -49,24 +50,13 @@ function Recovery({ credentials, setCredentials }) {
     submitEvent.preventDefault();
 
     /*
-    First, get the information from the recovery form and package it into a JavaScript object
-    to send to the server.
-    */
-
-    const formElements = submitEvent.target.elements;
-    const data = {
-      token: formElements.Token.value.trim(),
-      password: formElements.Password.value,
-      password2: formElements.Password2.value
-    };
-
-    /*
-    Next, before sending this information off, do some validation.
+    First, get the information from the recovery form and validate it.
 
     IMPORTANT NOTE:  As of this writing, what constitutes "valid data" hasn't been specified,
     so validation is rather limited at the moment.
     */
 
+    const data = getFormData(submitEvent.target);
     let dataIsValid = true;
 
     if (data.token === "") {
@@ -83,12 +73,12 @@ function Recovery({ credentials, setCredentials }) {
 
     if (dataIsValid) {
       /*
-      If the data is valid then send it off to the server!
+      Next, if the data is valid then send it off to the server!
       */
 
       const headers = new Headers();
 
-      headers.append("Authorization", `Basic ${btoa(credentials.token + ":" + data.password)}`);
+      headers.append("Authorization", `Basic ${btoa(credentials.token + ":" + data.token)}`);
       headers.append("Content-Type", "application/json");
 
       const [response, result] = await sendRequest(
@@ -144,19 +134,19 @@ function Recovery({ credentials, setCredentials }) {
       <form id="RecoveryForm" onSubmit={submit}>
         Recovery Code:
         <br />
-        <input name="Token" type="text" />
+        <input name="token" type="text" />
         <br />
         Password:
         <br />
         <input
-          name="Password"
+          name="password"
           type="password"
           defaultValue={credentials ? credentials.password : ""}
         />
         <br />
         Re-Enter Password:
         <br />
-        <input name="Password2" type="password" defaultValue={""} />
+        <input name="password2" type="password" defaultValue={""} />
         <br />
         <input type="submit" value="Reset Password" />
       </form>

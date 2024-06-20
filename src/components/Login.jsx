@@ -8,6 +8,7 @@ import validator from "validator";
 import { UserContext } from "../contexts/UserContext";
 
 import { sendRequest } from "../scripts/sendrequest.js";
+import { getFormData } from "../scripts/getFormData.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -51,23 +52,13 @@ function Login({ credentials, setCredentials }) {
     clickEvent.preventDefault();
 
     /*
-    First, get the information from the login form and package it into a JavaScript object to
-    send to the server.
-    */
-
-    const formElements = clickEvent.target.parentElement.elements;
-    const data = {
-      email: formElements.Email.value,
-      password: formElements.Password.value
-    };
-
-    /*
-    Next, before sending this information off, do some validation.
+    First, get the information from the login form and validate it.
 
     IMPORTANT NOTE:  As of this writing, what constitutes "valid data" hasn't been specified,
     so validation is rather limited at the moment.
     */
 
+    const data = getFormData(clickEvent.target.form);
     let dataIsValid = true;
 
     if (!validator.isEmail(data.email)) {
@@ -78,7 +69,7 @@ function Login({ credentials, setCredentials }) {
 
     if (dataIsValid) {
       /*
-      If the data is valid then send it off to the server!
+      Next, if the data is valid then send it off to the server!
       */
       const headers = new Headers();
 
@@ -138,23 +129,13 @@ function Login({ credentials, setCredentials }) {
     submitEvent.preventDefault();
 
     /*
-    First, get the information from the login form and package it into a JavaScript object to
-    send to the server.
-    */
-
-    const formElements = submitEvent.target.elements;
-    const data = {
-      email: formElements.Email.value,
-      password: formElements.Password.value
-    };
-
-    /*
-    Next, before sending this information off, do some validation.
+    First, get the information from the login form and validate it.
 
     IMPORTANT NOTE:  As of this writing, what constitutes "valid data" hasn't been specified,
     so validation is rather limited at the moment.
     */
 
+    const data = getFormData(submitEvent.target);
     let dataIsValid = true;
 
     if (!validator.isEmail(data.email)) {
@@ -173,7 +154,7 @@ function Login({ credentials, setCredentials }) {
 
     if (dataIsValid) {
       /*
-      If the data is valid then send it off to the server!
+      Next, if the data is valid then send it off to the server!
       */
       const headers = new Headers();
 
@@ -232,12 +213,12 @@ function Login({ credentials, setCredentials }) {
       <form id="LoginForm" onSubmit={submit}>
         E-mail Address:
         <br />
-        <input name="Email" type="text" defaultValue={credentials ? credentials.email : ""} />
+        <input name="email" type="text" defaultValue={credentials ? credentials.email : ""} />
         <br />
         Password:
         <br />
         <input
-          name="Password"
+          name="password"
           type="password"
           defaultValue={credentials ? credentials.password : ""}
         />
