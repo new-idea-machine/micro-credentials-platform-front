@@ -16,10 +16,10 @@ import "./Course.css";
 
 function Course({ courseData }) {
   return (
-    <div id="Course">
+    <div id="course">
       <h1>{courseData.title}</h1>
       <p>
-        <aside style={{ float: "inline-end" }}>
+        <aside>
           <b>Instructor:</b>
           <br />
           {courseData.instructor}
@@ -28,7 +28,7 @@ function Course({ courseData }) {
         {courseData.description}
       </p>
 
-      <section style={{ clear: "both" }}>
+      <section>
         {courseData.components.map((component, index) => {
           return (
             <>

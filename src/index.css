@@ -10,6 +10,9 @@
   --colour-primary-2: #eb5e28; /* Flame Orange */
   --colour-primary-3: #f9df74; /* Dandelion */
 
+  --colour-link: #646cff;
+  --colour-link-hover: #535bf2;
+
   /* Typography */
 
   --font-headers: Gabarito, sans-serif;
@@ -24,27 +27,29 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--colour-link);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--colour-link-hover);
 }
 
 body {
   background-color: var(--colour-background);
   color: var(--colour-primary-1);
   font-family: var(--font-body);
-  margin: 0;
+}
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  background-color: var(--colour-primary-2);
+  color: var(--colour-background);
+  font-size: 120%;
 }
 
 div.Card {
-  display: inline-block;
-  border-radius: 10px;
-  border-style: none;
-  padding: 10px;
-  width: 266px;
-  height: 417px;
   background-color: var(--colour-primary-1);
   color: var(--colour-background);
 
@@ -68,24 +73,10 @@ h1 {
 }
 
 hr {
-  border: solid 1px var(--colour-primary-1);
-  border-bottom-width: 0px;
+  border-color: var(--colour-primary-1);
 }
 
 nav {
   background-color: var(--colour-primary-2);
   color: var(--colour-background);
-}
-
-button,
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
-  height: 3.6rem;
-  border-radius: 1.8rem;
-  border: none;
-  padding: 0rem 1.8rem;
-  background-color: var(--colour-primary-2);
-  color: var(--colour-background);
-  font-size: 120%;
 }

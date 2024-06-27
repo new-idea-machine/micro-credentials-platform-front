@@ -18,9 +18,9 @@ function NavBar() {
 
   return (
     <nav>
-      <img id="Logo" src="/assets/brandmark_white.svg" />
+      <img id="logo" src="/assets/brandmark_white.svg" />
 
-      {userInfo ? <div id="Menu">Search Profile</div> : <div id="Menu">FAQ</div>}
+      {userInfo ? <div id="menu">Search Profile</div> : <div id="menu">FAQ</div>}
     </nav>
   );
 }

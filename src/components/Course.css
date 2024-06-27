@@ -1,16 +1,18 @@
-div#Course {
-  aside {
-    margin-bottom: 1em;
+div#course {
+  aside,
+  section {
+    border-radius: 10px;
+    border: 1px solid var(--colour-primary-1);
+    padding: 10px;
   }
 
   section {
     margin-top: 1em;
+    clear: both;
   }
 
-  aside,
-  section {
-    border-radius: 10px;
-    border: solid 1px var(--colour-primary-1);
-    padding: 10px;
+  p > aside {
+    float: inline-end;
+    margin-bottom: 1em;
   }
 }

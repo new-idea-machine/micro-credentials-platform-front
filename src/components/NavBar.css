@@ -9,17 +9,16 @@ nav {
   border: none;
   padding: 5px;
   display: grid;
-  height: fit-content;
   grid-template-rows: max-content;
   grid-template-columns: max-content 1fr;
   align-items: start;
 
-  img#Logo {
+  img#logo {
     display: block;
     height: 40px;
   }
 
-  div#Menu {
+  div#menu {
     text-align: right;
   }
 }
