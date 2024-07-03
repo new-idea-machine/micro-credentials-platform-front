@@ -2,32 +2,34 @@
 // IMPORTS
 // ============================================================================================
 
-import { useContext } from "react";
-import { UserContext } from "./contexts/UserContext";
-
-import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
-
-import NavBar from "./components/NavBar";
-
-import "./App.css";
+import PropTypes from "prop-types";
 
 // ============================================================================================
 // COMPONENT DEFINITION
 // ============================================================================================
 
-function App() {
-  const { userInfo } = useContext(UserContext);
+/*********************************************************************************************/
 
-  return <>
-    <NavBar />
+function CourseCard({ courseData, onViewClick }) {
+  return (
+    <div className="Card">
+      <h3>{courseData.title}</h3>
+      <p>Instructor: {courseData.instructor}</p>
 
-    {userInfo == null ? <LoginPage /> : <HomePage />}
-  </>;
+      <p className="Description">{courseData.description}</p>
+
+      <button onClick={onViewClick}>View</button>
+    </div>
+  );
 }
+
+CourseCard.propTypes = {
+  courseData: PropTypes.object.isRequired,
+  onViewClick: PropTypes.func.isRequired
+};
 
 // ============================================================================================
 // EXPORTS
 // ============================================================================================
 
-export default App;
+export default CourseCard;

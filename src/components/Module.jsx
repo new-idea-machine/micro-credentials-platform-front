@@ -2,32 +2,38 @@
 // IMPORTS
 // ============================================================================================
 
-import { useContext } from "react";
-import { UserContext } from "./contexts/UserContext";
-
-import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
-
-import NavBar from "./components/NavBar";
-
-import "./App.css";
+import PropTypes from "prop-types";
 
 // ============================================================================================
 // COMPONENT DEFINITION
 // ============================================================================================
 
-function App() {
-  const { userInfo } = useContext(UserContext);
+/*********************************************************************************************/
 
-  return <>
-    <NavBar />
+function Module({ moduleData }) {
+  return (
+    <>
+      <h2>{moduleData?.title}</h2>
 
-    {userInfo == null ? <LoginPage /> : <HomePage />}
-  </>;
+      <p>{moduleData?.description}</p>
+
+      {moduleData.url && (
+        <p>
+          <a href={moduleData.url} target="_blank" rel="noreferrer">
+            Show
+          </a>
+        </p>
+      )}
+    </>
+  );
 }
+
+Module.propTypes = {
+  moduleData: PropTypes.object.isRequired
+};
 
 // ============================================================================================
 // EXPORTS
 // ============================================================================================
 
-export default App;
+export default Module;

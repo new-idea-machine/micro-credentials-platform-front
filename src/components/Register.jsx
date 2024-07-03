@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext";
 
 import { sendRequest } from "../scripts/sendrequest.js";
+import { getFormData } from "../scripts/getFormData.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -50,25 +51,16 @@ function Register({ credentials, setCredentials }) {
     submitEvent.preventDefault();
 
     /*
-    First, get the information from the registration form and package it into
-    a JavaScript object to send to the backend.
+    First, get the information from the registration form and validate it.
+
+    IMPORTANT NOTE:  As of this writing, what constitutes "valid data" hasn't been specified,
+    so validation is rather limited at the moment.
     */
 
-    const formElements = submitEvent.target.elements;
-    const data = {
-      name: formElements.Name.value.trim(),
-      isInstructor: formElements.IsInstructor.value === "true"
-    };
-    const password = formElements.Password.value;
-
-    /*
-    Next, before sending this information off, do some validation.
-
-    IMPORTANT NOTE:  As of this writing, what constitutes "valid data" hasn't
-    been specified, so validation is rather limited at the moment.
-    */
-
+    const data = getFormData(submitEvent.target);
     let dataIsValid = true;
+
+    data.isInstructor = data.isInstructor === "true";
 
     if (data.name === "") {
       dataIsValid = false;
@@ -76,7 +68,7 @@ function Register({ credentials, setCredentials }) {
       window.alert('"Name" is required.');
     }
 
-    if (password !== credentials.password) {
+    if (data.password !== credentials.password) {
       dataIsValid = false;
 
       window.alert("That's not the same password!");
@@ -84,13 +76,15 @@ function Register({ credentials, setCredentials }) {
 
     if (dataIsValid) {
       /*
-      If the data is valid then send it off to the backend!
+      Next, if the data is valid then send it off to the server!
       */
 
       const headers = new Headers();
 
-      headers.append("Authorization", `Basic ${btoa(credentials.email + ":" + password)}`);
+      headers.append("Authorization", `Basic ${btoa(credentials.email + ":" + data.password)}`);
       headers.append("Content-Type", "application/json");
+
+      delete data.password;
 
       const [response, result] = await sendRequest(
         "POST",
@@ -129,7 +123,7 @@ function Register({ credentials, setCredentials }) {
         );
       } else if (result?.token_type !== "Bearer") {
         window.alert(
-          "Registration may have failed.\n\nThe response from the server was not understood."
+          "Registration may have failed.\n\nThe response from the server was not understood.  Please try logging in or try again later."
         );
       } else {
         setUserInfo(result);
@@ -144,31 +138,27 @@ function Register({ credentials, setCredentials }) {
   return (
     <>
       <h1>Are You a New User?</h1>
-
       <p>
         We&apos;re asking because <b>&quot;{credentials.email}&quot;</b> wasn&apos;t found in
         our list of registered users.
       </p>
-
       <hr />
-
       <p>
         If you are a new user then please complete your registration by filling in and
         submitting this form:
       </p>
-
       <form id="RegistrationForm" onSubmit={submit}>
         Name:
         <br />
-        <input name="Name" type="text" />
+        <input name="name" type="text" />
         <br />
         Password (again):
         <br />
-        <input name="Password" type="password" />
+        <input name="password" type="password" />
         <br />
         I am a:
         <br />
-        <select name="IsInstructor" defaultValue="false">
+        <select name="isInstructor" defaultValue="false">
           <option value="false">Learner</option>
           <option value="true">Instructor</option>
         </select>
@@ -176,15 +166,18 @@ function Register({ credentials, setCredentials }) {
         <br />
         <input type="submit" value="Register" />
       </form>
-
       <hr />
-
       <p>
         If you&apos;re sure that you&apos;re already registered then you can try using different
         credentials.
       </p>
-
-      <button onClick={() => setCredentials(null)}>Go back to login screen.</button>
+      <button
+        onClick={() =>
+          setCredentials({ email: credentials.email, password: credentials.password })
+        }
+      >
+        Log In with Different Credentials
+      </button>{" "}
     </>
   );
 }

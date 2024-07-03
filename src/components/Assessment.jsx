@@ -2,10 +2,7 @@
 // IMPORTS
 // ============================================================================================
 
-import { useState } from "react";
-import Login from "../components/Login";
-import Register from "../components/Register";
-import Recovery from "../components/Recovery";
+import PropTypes from "prop-types";
 
 // ============================================================================================
 // COMPONENT DEFINITION
@@ -13,24 +10,38 @@ import Recovery from "../components/Recovery";
 
 /*********************************************************************************************/
 
-function LoginPage() {
-  const [credentials, setCredentials] = useState(null);
-
+function Assessment({ assessmentData }) {
   return (
     <>
-      {credentials?.token === true ? (
-        <Recovery credentials={credentials} setCredentials={setCredentials} />
-      ) : credentials?.unregistered === true ? (
-        <Register credentials={credentials} setCredentials={setCredentials} />
-      ) : (
-        <Login credentials={credentials} setCredentials={setCredentials} />
-      )}
+      <h2>{assessmentData.title}</h2>
+
+      <ol>
+        {assessmentData.questions.map((question, index) => {
+          return (
+            <li key={index}>
+              <p>{question.question}</p>
+              {question.choices.map((choice, index) => {
+                return <div key={index}>{choice}</div>;
+              })}
+              <p>
+                The correct answer: <b>{question.choices[question.correctChoice]}</b>
+              </p>
+
+              <p>{question.explanation}</p>
+            </li>
+          );
+        })}
+      </ol>
     </>
   );
 }
+
+Assessment.propTypes = {
+  assessmentData: PropTypes.object.isRequired
+};
 
 // ============================================================================================
 // EXPORTS
 // ============================================================================================
 
-export default LoginPage;
+export default Assessment;
