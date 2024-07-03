@@ -20,6 +20,10 @@ div.Card {
   padding: 10px;
   width: 266px;
   height: 417px;
+
+  p.Description {
+    overflow: hidden;
+  }
 }
 
 hr {

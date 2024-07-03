@@ -17,11 +17,13 @@ function Module({ moduleData }) {
 
       <p>{moduleData?.description}</p>
 
-      <p>
-        <a href={moduleData?.url} target="_blank" rel="noreferrer">
-          Show
-        </a>
-      </p>
+      {moduleData.url && (
+        <p>
+          <a href={moduleData.url} target="_blank" rel="noreferrer">
+            Show
+          </a>
+        </p>
+      )}
     </>
   );
 }

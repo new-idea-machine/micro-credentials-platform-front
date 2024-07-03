@@ -36,6 +36,21 @@ function Login({ credentials, setCredentials }) {
 
   /*******************************************************************************************/
 
+  function emailIsValid(email) {
+    /*
+    Alert the user if "email" is an invalid address; return "true" it's valid or "false" if it
+    isn't.
+    */
+
+    const isValid = validator.isEmail(email);
+
+    if (!isValid) window.alert("That's not a valid e-mail address!  Who're you trying to kid?");
+
+    return isValid;
+  }
+
+  /*******************************************************************************************/
+
   async function forgotPassword(clickEvent) {
     /*
     Send a request to the server to recover a user's account by e-mail and handle the response.
@@ -59,15 +74,8 @@ function Login({ credentials, setCredentials }) {
     */
 
     const data = getFormData(clickEvent.target.form);
-    let dataIsValid = true;
 
-    if (!validator.isEmail(data.email)) {
-      dataIsValid = false;
-
-      window.alert("That's not a valid e-mail address!  Who're you trying to kid?");
-    }
-
-    if (dataIsValid) {
+    if (emailIsValid(data.email)) {
       /*
       Next, if the data is valid then send it off to the server!
       */
@@ -136,13 +144,7 @@ function Login({ credentials, setCredentials }) {
     */
 
     const data = getFormData(submitEvent.target);
-    let dataIsValid = true;
-
-    if (!validator.isEmail(data.email)) {
-      dataIsValid = false;
-
-      window.alert("That's not a valid e-mail address!  Who're you trying to kid?");
-    }
+    let dataIsValid = emailIsValid(data.email);
 
     if (data.password === "") {
       dataIsValid = false;

@@ -16,7 +16,7 @@ function CourseCard({ courseData, onViewClick }) {
       <h3>{courseData.title}</h3>
       <p>Instructor: {courseData.instructor}</p>
 
-      <p style={{ overflow: "hidden" }}>{courseData.description}</p>
+      <p className="Description">{courseData.description}</p>
 
       <button onClick={onViewClick}>View</button>
     </div>

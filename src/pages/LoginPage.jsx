@@ -16,13 +16,17 @@ import Recovery from "../components/Recovery";
 function LoginPage() {
   const [credentials, setCredentials] = useState(null);
 
-  if (credentials?.token === true)
-    return <Recovery credentials={credentials} setCredentials={setCredentials} />;
-
-  if (credentials?.unregistered === true)
-    return <Register credentials={credentials} setCredentials={setCredentials} />;
-
-  return <Login credentials={credentials} setCredentials={setCredentials} />;
+  return (
+    <>
+      {credentials?.token === true ? (
+        <Recovery credentials={credentials} setCredentials={setCredentials} />
+      ) : credentials?.unregistered === true ? (
+        <Register credentials={credentials} setCredentials={setCredentials} />
+      ) : (
+        <Login credentials={credentials} setCredentials={setCredentials} />
+      )}
+    </>
+  );
 }
 
 // ============================================================================================

@@ -3,6 +3,7 @@
 // ============================================================================================
 
 import { useContext, useState } from "react";
+import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 import Course from "../components/Course";
@@ -45,13 +46,16 @@ function HomePage() {
             );
           })}
         </ResponsiveGrid>
-        <br />
 
         <button onClick={() => setUserInfo(null)}>Go Back to Login Screen</button>
       </>
     );
   }
 }
+
+HomePage.propTypes = {
+  children: PropTypes.oneOf([undefined])
+};
 
 // ============================================================================================
 // EXPORTS
