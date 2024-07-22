@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/UserContext";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
-import { validatePassword } from "../constants/passwordPolicy";
+import { passwordPolicy } from "../constants/passwordPolicy";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -34,6 +34,19 @@ console.assert(
 function Register({ credentials, setCredentials }) {
   const { setUserInfo } = useContext(UserContext);
   const [passwordError, setPasswordError] = useState("");
+  const [password, setPassword] = useState(credentials ? credentials.password : "");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handlePasswordAssign = (event) => {
+    const userPassword = event.target.value;
+    setPassword(userPassword);
+    const validation = passwordPolicy.validatePassword(userPassword);
+    setPasswordError(validation === true ? "" : validation.join(" "));
+  };
+
+  const handleConfirmPasswordAssign = (event) => {
+    setConfirmPassword(event.target.value);
+  };
 
   /*******************************************************************************************/
 
@@ -66,21 +79,24 @@ function Register({ credentials, setCredentials }) {
 
     if (data.name === "") {
       dataIsValid = false;
-
       window.alert('"Name" is required.');
     }
 
-    const error = validatePassword(data.password);
+    const error = passwordPolicy.validatePassword(data.password);
     if (error) {
       dataIsValid = false;
       setPasswordError(error);
       window.alert(error);
     }
 
-    if (data.password !== credentials.password) {
+    if (passwordError) {
       dataIsValid = false;
+      window.alert(passwordError);
+    }
 
-      window.alert("That's not the same password!");
+    if (password !== confirmPassword) {
+      dataIsValid = false;
+      window.alert("The two passwords don't match.");
     }
 
     if (dataIsValid) {
@@ -161,11 +177,25 @@ function Register({ credentials, setCredentials }) {
         <br />
         <input name="name" type="text" />
         <br />
-        Password (again):
+        Password:
         <br />
-        <input name="password" type="password" />
+        <input
+          name="password"
+          type="password"
+          value={password}
+          onChange={handlePasswordAssign}
+        />
         <br />
         <span style={{ color: "red" }}>{passwordError}</span>
+        <br />
+        Re-Enter Password:
+        <br />
+        <input
+          name="confirmPassword"
+          type="password"
+          value={confirmPassword}
+          onChange={handleConfirmPasswordAssign}
+        />
         <br />
         I am a:
         <br />

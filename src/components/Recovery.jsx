@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/UserContext.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
-import { validatePassword } from "../constants/passwordPolicy";
+import { passwordPolicy } from "../constants/passwordPolicy";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -40,8 +40,8 @@ function Recovery({ credentials, setCredentials }) {
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
-    const error = validatePassword(newPassword);
-    setPasswordError(error);
+    const validation = passwordPolicy.validatePassword(newPassword);
+    setPasswordError(validation === true ? "" : validation.join(" "));
   };
 
   const handleConfirmPasswordChange = (event) => {
@@ -76,7 +76,6 @@ function Recovery({ credentials, setCredentials }) {
 
     if (data.token === "") {
       dataIsValid = false;
-
       window.alert('"Recovery Code" is required.');
     }
 
@@ -104,7 +103,7 @@ function Recovery({ credentials, setCredentials }) {
         "PATCH",
         `${serverURL}/auth/recovery`,
         headers,
-        JSON.stringify({ password: password })
+        JSON.stringify({ password })
       );
 
       /*
