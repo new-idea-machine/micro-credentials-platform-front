@@ -4,6 +4,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
+import './styles/custom.scss'; // Import the main SCSS file
 import App from "./App.jsx";
 
 import { UserContextProvider } from "./contexts/UserContext";
