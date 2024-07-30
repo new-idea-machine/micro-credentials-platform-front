@@ -7,22 +7,9 @@
 @import 'base';
 @import 'layout';
 @import 'fonts';
-
-body {
-  font-family: $primary-font;
-}
-
-// Example
-.box-class {
-  font-family: $secondary-font;
-}
+@import 'colors'; 
 
 // Global styles and resets
-@import 'variables';
-@import 'fonts';
-@import 'colors';
-@import 'mixins';
-
 body {
   font-family: $primary-font;
   font-size: $font-size-base;
@@ -30,6 +17,11 @@ body {
   background-color: $light-color;
   margin: 0;
   padding: 0;
+}
+
+// Example class
+.box-class {
+  font-family: $secondary-font;
 }
 
 // Example Container
