@@ -1,0 +1,23 @@
+// ============================================================================================
+// Reusable mixins for commonly used CSS patterns
+// ============================================================================================
+
+// Flexbox Centering Mixin
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Responsive Media Query Mixin
+// @mixin media-query($breakpoint) {
+//   @if $breakpoint == 'sm' {
+//     @media (min-width: 576px) { @content; }
+//   } @else if $breakpoint == 'md' {
+//     @media (min-width: 768px) { @content; }
+//   } @else if $breakpoint == 'lg' {
+//     @media (min-width: 992px) { @content; }
+//   } @else if $breakpoint == 'xl' {
+//     @media (min-width: 1200px) { @content; }
+//   }
+// }

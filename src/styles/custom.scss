@@ -1,0 +1,33 @@
+// Import Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Import Custom Styles
+@import 'variables';
+@import 'mixins';
+@import 'base';
+@import 'layout';
+@import 'fonts';
+@import 'colors'; 
+
+// Global styles and resets
+body {
+  font-family: $primary-font;
+  font-size: $font-size-base;
+  color: $dark-color;
+  background-color: $light-color;
+  margin: 0;
+  padding: 0;
+}
+
+// Example class
+.box-class {
+  font-family: $secondary-font;
+}
+
+// Example Container
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacer;
+}
