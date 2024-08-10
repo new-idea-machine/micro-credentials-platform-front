@@ -4,9 +4,11 @@
 
 import { useContext, useState } from "react";
 import ResponsiveGrid from "../components/ResponsiveGrid";
-import { CourseContext } from "../contexts/CoursesContext";
+import { CoursesContext } from "../contexts/CoursesContext";
 import CourseCard from "../components/CourseCard";
 import Course from "../components/Course";
+import { useNavigate } from "react-router-dom";
+
 const serverURL = import.meta.env.VITE_SERVER_URL_ROOT;
 
 console.assert(
@@ -15,14 +17,23 @@ console.assert(
 );
 
 function LandingPage() {
-  const { coursesInfo, setCoursesInfo } = useContext(CourseContext);
+  const { coursesInfo, setCoursesInfo } = useContext(CoursesContext);
   const [course, setCourse] = useState(null);
+  const navigate = useNavigate();
 
   const courses = coursesInfo?.Courses_data ? coursesInfo.Courses_data : [];
 
   return (
     <>
-      <div></div>
+      <div>
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          Login / SignUp
+        </button>
+      </div>
       <div></div>
 
       {course && (
