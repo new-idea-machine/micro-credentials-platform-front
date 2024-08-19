@@ -135,7 +135,7 @@ function Register({ credentials, setCredentials }) {
       } else if (response.status === 406) {
         console.log(`HTTP response code 406 -- "${result?.msg}"`);
         window.alert(
-          "Registration failed.\n\nThe server couldn't make sense of the data that was sent to it. Please reload or try again later."
+          "Registration failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later."
         );
       } else if (response.status === 504) {
         window.alert(
