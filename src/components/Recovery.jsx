@@ -6,9 +6,9 @@ import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext.jsx";
 
-import { sendRequest } from "../scripts/sendrequest.js";
-import { getFormData } from "../scripts/getFormData.js";
-import { passwordPolicy } from "../constants/passwordPolicy";
+import { sendRequest } from "../utils/sendrequest.js";
+import { getFormData } from "../utils/getFormData.js";
+import { validatePassword } from "../utils/validatePassword.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -40,7 +40,7 @@ function Recovery({ credentials, setCredentials }) {
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
-    const validation = passwordPolicy.validatePassword(newPassword);
+    const validation = validatePassword(newPassword);
     setPasswordError(validation === true ? "" : validation.join(" "));
   };
 
@@ -114,7 +114,7 @@ function Recovery({ credentials, setCredentials }) {
 
       if (response === null) {
         window.alert(
-          "Password reset failed.\n\nThe server could not be accessed. Please try again later."
+          "Password reset failed.\n\nThe server could not be accessed.  Please try again later."
         );
       } else if (response.status === 401) {
         window.alert("Password reset failed.\n\nThe recovery code was rejected.");
@@ -124,15 +124,15 @@ function Recovery({ credentials, setCredentials }) {
         );
       } else if (response.status === 504) {
         window.alert(
-          "Password reset failed.\n\nThe server couldn't access the database. Please try again later."
+          "Password reset failed.\n\nThe server couldn't access the database.  Please try again later."
         );
       } else if (!response.ok) {
         window.alert(
-          "Password reset failed.\n\nThis application is having a bad day. Please reload or try again later."
+          "Password reset failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
       } else if (!result?.access_token) {
         window.alert(
-          "Password reset failed.\n\nThe response from the server was not understood. Please reload or try again later."
+          "Password reset failed.\n\nThe response from the server was not understood.  Please reload or try again later."
         );
       } else {
         const newUserInfo = result;
@@ -148,8 +148,7 @@ function Recovery({ credentials, setCredentials }) {
     <>
       <h1>Account Recovery</h1>
       <p>
-        An e-mail has been sent to <b>{credentials?.email}</b> with a recovery code.
-        Please check your inbox (and spam folder!) for this code and enter it here:
+        An e-mail has been sent to <b>{credentials?.email}</b> with a recovery code.  Please check your inbox (and spam folder!) for this code and enter it here:
       </p>
       <form id="RecoveryForm" onSubmit={submit}>
         Recovery Code:

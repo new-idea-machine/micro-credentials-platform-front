@@ -6,9 +6,9 @@ import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext";
 
-import { sendRequest } from "../scripts/sendrequest.js";
-import { getFormData } from "../scripts/getFormData.js";
-import { passwordPolicy } from "../constants/passwordPolicy";
+import { sendRequest } from "../utils/sendrequest.js";
+import { getFormData } from "../utils/getFormData.js";
+import { validatePassword } from "../utils/validatePassword.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -40,7 +40,7 @@ function Register({ credentials, setCredentials }) {
   const handlePasswordAssign = (event) => {
     const userPassword = event.target.value;
     setPassword(userPassword);
-    const validation = passwordPolicy.validatePassword(userPassword);
+    const validation = validatePassword(userPassword);
     setPasswordError(validation === true ? "" : validation.join(" "));
   };
 
@@ -82,7 +82,7 @@ function Register({ credentials, setCredentials }) {
       window.alert('"Name" is required.');
     }
 
-    const error = passwordPolicy.validatePassword(data.password);
+    const error = validatePassword(data.password);
     if (error) {
       dataIsValid = false;
       setPasswordError(error);
@@ -126,7 +126,7 @@ function Register({ credentials, setCredentials }) {
 
       if (response === null) {
         window.alert(
-          "Registration failed.\n\nThe server could not be accessed. Please try again later."
+          "Registration failed.\n\nThe server could not be accessed.  Please try again later."
         );
       } else if (response.status === 403) {
         window.alert(
@@ -139,16 +139,16 @@ function Register({ credentials, setCredentials }) {
         );
       } else if (response.status === 504) {
         window.alert(
-          "Registration failed.\n\nThe server couldn't access the database. Please try again later."
+          "Registration failed.\n\nThe server couldn't access the database.  Please try again later."
         );
       } else if (!response.ok) {
         console.log(`HTTP response code ${response.status} -- "${result?.msg}"`);
         window.alert(
-          "Registration failed.\n\nThis application is having a bad day. Please reload or try again later."
+          "Registration failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
       } else if (result?.token_type !== "Bearer") {
         window.alert(
-          "Registration may have failed.\n\nThe response from the server was not understood. Please try logging in or try again later."
+          "Registration may have failed.\n\nThe response from the server was not understood.  Please try logging in or try again later."
         );
       } else {
         setUserInfo(result);

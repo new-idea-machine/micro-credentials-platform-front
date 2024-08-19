@@ -7,8 +7,8 @@ import PropTypes from "prop-types";
 import validator from "validator";
 import { UserContext } from "../contexts/UserContext";
 
-import { sendRequest } from "../scripts/sendrequest.js";
-import { getFormData } from "../scripts/getFormData.js";
+import { sendRequest } from "../utils/sendrequest.js";
+import { getFormData } from "../utils/getFormData.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
