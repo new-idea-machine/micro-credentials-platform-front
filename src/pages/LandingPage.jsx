@@ -17,11 +17,30 @@ console.assert(
 );
 
 function LandingPage() {
+  // CONTEXT AND STATE
+  // context will have all the courses that will be displayed in the landing page
   const { coursesInfo, setCoursesInfo } = useContext(CoursesContext);
+  // Course has the information for the course that would like to be displayed
   const [course, setCourse] = useState(null);
-  const navigate = useNavigate();
-
+  // controlled input state that will help to filter the courses that are displayed
+  const [searchText, setSearchText] = useState("");
+  // state for the courses that will alter the courses displayed
   const courses = coursesInfo?.Courses_data ? coursesInfo.Courses_data : [];
+  const [coursesDisplay, setCoursesDisplay] = useState(courses);
+
+  // FUNCTIONS
+  function searchInCourses(searchString) {
+    const filteredCourses = coursesDisplay.filter((c) => {
+      return c.title.includes(searchString) || c.description.includes(searchString);
+    });
+    setCoursesDisplay(filteredCourses);
+  }
+
+  function resetCourses() {
+    setCoursesDisplay(courses);
+  }
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -35,7 +54,6 @@ function LandingPage() {
         </button>
       </div>
       <div></div>
-
       {course && (
         <>
           <Course courseData={course} />
@@ -43,10 +61,18 @@ function LandingPage() {
           <button onClick={() => setCourse(null)}>Close</button>
         </>
       )}
-
       <h1>Discover Our Courses</h1>
+      <input
+        value={searchText}
+        onChange={(e) => {
+          setSearchText(e.target.value);
+        }}
+        type="text"
+      />
+      <button onClick={() => searchInCourses(searchText)}>search</button>
+      <button onClick={() => resetCourses()}>Reset</button>
       <ResponsiveGrid minColumnWidth="329px" rowGap="43px">
-        {courses.map((course, index) => {
+        {coursesDisplay.map((course, index) => {
           return (
             <CourseCard courseData={course} key={index} onViewClick={() => setCourse(course)} />
           );
