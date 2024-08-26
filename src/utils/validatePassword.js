@@ -11,7 +11,7 @@ const passwordPolicy = {
  *
  * @param {string} password - The password to be validated.
  * @throws {TypeError} - Throws an error if the password is not a string.
- * @returns {string[]|null} - Returns an array of error messages if the password does not meet the policy requirements, otherwise returns null.
+ * @returns {string[]|null} - Returns an array of error messages if the password does not meet the policy requirements, otherwise returns true.
  */
 function validatePassword(password) {
   if (typeof password !== 'string') {

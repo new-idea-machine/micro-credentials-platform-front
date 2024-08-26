@@ -34,18 +34,21 @@ console.assert(
 function Register({ credentials, setCredentials }) {
   const { setUserInfo } = useContext(UserContext);
   const [passwordError, setPasswordError] = useState("");
+  const [passwordMismatchError, setPasswordMismatchError] = useState("");
   const [password, setPassword] = useState(credentials ? credentials.password : "");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handlePasswordAssign = (event) => {
+  function handlePasswordAssign (event) {
     const userPassword = event.target.value;
     setPassword(userPassword);
     const validation = validatePassword(userPassword);
     setPasswordError(validation === true ? "" : validation.join(" "));
+    setPasswordMismatchError("");
   };
 
-  const handleConfirmPasswordAssign = (event) => {
+  function handleConfirmPasswordAssign (event) {
     setConfirmPassword(event.target.value);
+    setPasswordMismatchError("");
   };
 
   /*******************************************************************************************/
@@ -96,7 +99,9 @@ function Register({ credentials, setCredentials }) {
 
     if (password !== confirmPassword) {
       dataIsValid = false;
-      window.alert("The two passwords don't match.");
+      const mismatchMessage = "The two passwords don't match.";
+      setPasswordMismatchError(mismatchMessage);
+      window.alert(mismatchMessage);
     }
 
     if (dataIsValid) {
@@ -196,6 +201,8 @@ function Register({ credentials, setCredentials }) {
           value={confirmPassword}
           onChange={handleConfirmPasswordAssign}
         />
+        <br />
+        <span style={{ color: "red" }}>{passwordMismatchError}</span>
         <br />
         I am a:
         <br />
