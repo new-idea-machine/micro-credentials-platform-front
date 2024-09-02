@@ -73,8 +73,11 @@ export default async function sendRequest(method, resource, headers = null, body
     if (method === "GET" || method === "HEAD")
       throw new Error('"body" can\'t be included in a GET or HEAD request');
 
-    if (headers === null || !headers.get("Content-Type"))
-      throw new Error('If "body" is specified then a "Content-Type" header must be included');
+    // Skip Content-Type header check if body is FormData as the browser will set the `Content-Type` header automatically, but still enforce this requirement for other body types
+    if (!(body instanceof FormData)) {
+      if (headers === null || !headers.get("Content-Type"))
+        throw new Error('If "body" is specified then a "Content-Type" header must be included');
+    }
 
     options.body = body;
   }

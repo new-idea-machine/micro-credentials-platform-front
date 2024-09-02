@@ -7,6 +7,7 @@ import { UserContext } from "./contexts/UserContext";
 
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
+import FilePage from "./pages/FilePage";
 
 import NavBar from "./components/NavBar";
 
@@ -19,11 +20,14 @@ import "./App.css";
 function App() {
   const { userInfo } = useContext(UserContext);
 
-  return <>
-    <NavBar />
+  return (
+    <>
+      <NavBar />
 
-    {userInfo == null ? <LoginPage /> : <HomePage />}
-  </>;
+      {/* {userInfo == null ? <LoginPage /> : <HomePage />}  */}
+      {userInfo == null ? <LoginPage /> : <FilePage />}
+    </>
+  );
 }
 
 // ============================================================================================
