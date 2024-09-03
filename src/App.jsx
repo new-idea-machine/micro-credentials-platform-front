@@ -16,7 +16,6 @@ function App() {
     <>
       <NavBar />
       <AppRoutes />
-      {/* {userInfo == null ? <LoginPage /> : <HomePage />} */}
     </>
   );
 }

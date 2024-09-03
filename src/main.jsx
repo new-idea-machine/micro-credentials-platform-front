@@ -10,6 +10,7 @@ import { UserContextProvider } from "./contexts/UserContext";
 
 import "./index.css";
 import { CoursesContextProvider } from "./contexts/CoursesContext.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 // ============================================================================
 // MAIN PROGRAM
@@ -17,10 +18,12 @@ import { CoursesContextProvider } from "./contexts/CoursesContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <UserContextProvider>
-      <CoursesContextProvider>
-        <App />
-      </CoursesContextProvider>
-    </UserContextProvider>
+    <BrowserRouter>
+      <UserContextProvider>
+        <CoursesContextProvider>
+          <App />
+        </CoursesContextProvider>
+      </UserContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

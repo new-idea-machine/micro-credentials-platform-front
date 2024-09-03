@@ -18,8 +18,8 @@ function CoursesContextProvider({ children }) {
   );
 }
 
-UserContextProvider.propTypes = {
-  children: PropTypes.object
+CoursesContextProvider.propTypes = {
+  children: PropTypes.node
 };
 
 export { CoursesContext, CoursesContextProvider };

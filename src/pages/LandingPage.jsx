@@ -2,7 +2,7 @@
 // IMPORTS
 // ============================================================================================
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 import { CoursesContext } from "../contexts/CoursesContext";
 import CourseCard from "../components/CourseCard";
@@ -28,10 +28,18 @@ function LandingPage() {
   const courses = coursesInfo?.Courses_data ? coursesInfo.Courses_data : [];
   const [coursesDisplay, setCoursesDisplay] = useState(courses);
 
+  useEffect(() => {
+    setCoursesDisplay(courses);
+  }, [coursesInfo]);
+
   // FUNCTIONS
   function searchInCourses(searchString) {
-    const filteredCourses = coursesDisplay.filter((c) => {
-      return c.title.includes(searchString) || c.description.includes(searchString);
+    let loweredString = searchString.trim().toLowerCase();
+    const filteredCourses = courses.filter((c) => {
+      return (
+        c.title.toLowerCase().includes(loweredString) ||
+        c.description.toLowerCase().includes(loweredString)
+      );
     });
     setCoursesDisplay(filteredCourses);
   }
@@ -41,6 +49,8 @@ function LandingPage() {
   }
 
   const navigate = useNavigate();
+
+  console.log(coursesDisplay);
 
   return (
     <>
@@ -69,14 +79,29 @@ function LandingPage() {
         }}
         type="text"
       />
-      <button onClick={() => searchInCourses(searchText)}>search</button>
-      <button onClick={() => resetCourses()}>Reset</button>
+      <button onClick={() => searchInCourses(searchText)}>Search</button>
+      <button
+        onClick={() => {
+          resetCourses();
+          setSearchText("");
+        }}
+      >
+        Reset
+      </button>
       <ResponsiveGrid minColumnWidth="329px" rowGap="43px">
-        {coursesDisplay.map((course, index) => {
-          return (
-            <CourseCard courseData={course} key={index} onViewClick={() => setCourse(course)} />
-          );
-        })}
+        {coursesDisplay.length > 0 ? (
+          coursesDisplay.map((course, index) => {
+            return (
+              <CourseCard
+                courseData={course}
+                key={index}
+                onViewClick={() => setCourse(course)}
+              />
+            );
+          })
+        ) : (
+          <h3>No Courses Found</h3>
+        )}
       </ResponsiveGrid>
     </>
   );
