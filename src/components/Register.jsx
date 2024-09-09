@@ -6,8 +6,8 @@ import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext";
 
-import { sendRequest } from "../utils/sendrequest.js";
-import { getFormData } from "../utils/getFormData.js";
+import { sendRequest } from "../scripts/sendrequest.js";
+import { getFormData } from "../scripts/getFormData.js";
 import { validatePassword } from "../utils/validatePassword.js";
 
 // ============================================================================================
