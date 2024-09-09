@@ -11,7 +11,7 @@ const passwordPolicy = {
  *
  * @param {string} password - The password to be validated.
  * @throws {TypeError} - Throws an error if the password is not a string.
- * @returns {string[]|null} - Returns an array of error messages if the password does not meet the policy requirements, otherwise returns true.
+ * @returns {string[]|true} - Returns an array of error messages if the password does not meet the policy requirements, otherwise returns true.
  */
 function validatePassword(password) {
   if (typeof password !== 'string') {
@@ -34,7 +34,7 @@ function validatePassword(password) {
   if (hasNumber && !/[0-9]/.test(password)) {
     errors.push("Password must contain at least one number.");
   }
-  if (hasSpecialChar && !/[!@#$%^&*\-_]/.test(password)) {
+  if (hasSpecialChar && !/[!?~@#$%'^"&*[]\-_]/.test(password)) {
     errors.push("Password must contain at least one special character.");
   }
 

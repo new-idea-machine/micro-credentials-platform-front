@@ -191,7 +191,7 @@ function Register({ credentials, setCredentials }) {
           onChange={handlePasswordAssign}
         />
         <br />
-        <span style={{ color: "red" }}>{passwordError}</span>
+        <span>{passwordError}</span>
         <br />
         Re-Enter Password:
         <br />
@@ -202,7 +202,7 @@ function Register({ credentials, setCredentials }) {
           onChange={handleConfirmPasswordAssign}
         />
         <br />
-        <span style={{ color: "red" }}>{passwordMismatchError}</span>
+        <span>{passwordMismatchError}</span>
         <br />
         I am a:
         <br />

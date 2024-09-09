@@ -37,14 +37,14 @@ function Recovery({ credentials, setCredentials }) {
   const [password, setPassword] = useState(credentials ? credentials.password : "");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handlePasswordChange = (event) => {
+  function handlePasswordChange (event) {
     const newPassword = event.target.value;
     setPassword(newPassword);
     const validation = validatePassword(newPassword);
     setPasswordError(validation === true ? "" : validation.join(" "));
   };
 
-  const handleConfirmPasswordChange = (event) => {
+  function handleConfirmPasswordChange (event) {
     setConfirmPassword(event.target.value);
   };
 
@@ -164,7 +164,7 @@ function Recovery({ credentials, setCredentials }) {
           onChange={handlePasswordChange}
         />
         <br />
-        <span style={{ color: "red" }}>{passwordError}</span>
+        <span>{passwordError}</span>
         <br />
         Re-Enter Password:
         <br />
