@@ -34,7 +34,7 @@ function validatePassword(password) {
   if (hasNumber && !/[0-9]/.test(password)) {
     errors.push("Password must contain at least one number.");
   }
-  if (hasSpecialChar && !/[!?~@#$%'^"&*[]\-_]/.test(password)) {
+  if (hasSpecialChar && !/[!?~@#$%'^"&*[\]\\\-_]/.test(password)) {
     errors.push("Password must contain at least one special character.");
   }
 
