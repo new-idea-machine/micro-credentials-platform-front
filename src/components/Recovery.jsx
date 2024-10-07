@@ -3,6 +3,8 @@
 // ============================================================================================
 
 import { useContext, useState } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext.jsx";
 
@@ -76,17 +78,17 @@ function Recovery({ credentials, setCredentials }) {
 
     if (data.token === "") {
       dataIsValid = false;
-      window.alert('"Recovery Code" is required.');
+      toast.error('"Recovery Code" is required.');
     }
 
     if (passwordError) {
       dataIsValid = false;
-      window.alert(passwordError);
+      toast.error(passwordError);
     }
 
     if (password !== confirmPassword) {
       dataIsValid = false;
-      window.alert("The two passwords don't match.");
+      toast.error("The two passwords don't match.");
     }
 
     if (dataIsValid) {
@@ -113,25 +115,25 @@ function Recovery({ credentials, setCredentials }) {
       */
 
       if (response === null) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe server could not be accessed.  Please try again later."
         );
       } else if (response.status === 401) {
-        window.alert("Password reset failed.\n\nThe recovery code was rejected.");
+        toast.error("Password reset failed.\n\nThe recovery code was rejected.");
       } else if (response.status === 406) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe server didn't understand what was sent to it. Please reload or try again later."
         );
       } else if (response.status === 504) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe server couldn't access the database.  Please try again later."
         );
       } else if (!response.ok) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
       } else if (!result?.access_token) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe response from the server was not understood.  Please reload or try again later."
         );
       } else {
