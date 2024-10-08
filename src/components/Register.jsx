@@ -2,12 +2,15 @@
 // IMPORTS
 // ============================================================================================
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
+import { validatePassword } from "../utils/validatePassword.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -32,6 +35,23 @@ console.assert(
 
 function Register({ credentials, setCredentials }) {
   const { setUserInfo } = useContext(UserContext);
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordMismatchError, setPasswordMismatchError] = useState("");
+  const [password, setPassword] = useState(credentials ? credentials.password : "");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  function handlePasswordAssign (event) {
+    const userPassword = event.target.value;
+    setPassword(userPassword);
+    const validation = validatePassword(userPassword);
+    setPasswordError(validation === true ? "" : validation.join(" "));
+    setPasswordMismatchError("");
+  };
+
+  function handleConfirmPasswordAssign (event) {
+    setConfirmPassword(event.target.value);
+    setPasswordMismatchError("");
+  };
 
   /*******************************************************************************************/
 
@@ -64,14 +84,26 @@ function Register({ credentials, setCredentials }) {
 
     if (data.name === "") {
       dataIsValid = false;
-
-      window.alert('"Name" is required.');
+      toast.error('"Name" is required.');
     }
 
-    if (data.password !== credentials.password) {
+    const error = validatePassword(data.password);
+    if (error) {
       dataIsValid = false;
+      setPasswordError(error);
+      toast.error(error);
+    }
 
-      window.alert("That's not the same password!");
+    if (passwordError) {
+      dataIsValid = false;
+      toast.error(passwordError);
+    }
+
+    if (password !== confirmPassword) {
+      dataIsValid = false;
+      const mismatchMessage = "The two passwords don't match.";
+      setPasswordMismatchError(mismatchMessage);
+      toast.error(mismatchMessage);
     }
 
     if (dataIsValid) {
@@ -100,29 +132,29 @@ function Register({ credentials, setCredentials }) {
       */
 
       if (response === null) {
-        window.alert(
+        toast.error(
           "Registration failed.\n\nThe server could not be accessed.  Please try again later."
         );
       } else if (response.status === 403) {
-        window.alert(
+        toast.error(
           "Registration failed.\n\nA user with these login credentials is already registered."
         );
       } else if (response.status === 406) {
         console.log(`HTTP response code 406 -- "${result?.msg}"`);
-        window.alert(
+        toast.error(
           "Registration failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later."
         );
       } else if (response.status === 504) {
-        window.alert(
+        toast.error(
           "Registration failed.\n\nThe server couldn't access the database.  Please try again later."
         );
       } else if (!response.ok) {
         console.log(`HTTP response code ${response.status} -- "${result?.msg}"`);
-        window.alert(
+        toast.error(
           "Registration failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
       } else if (result?.token_type !== "Bearer") {
-        window.alert(
+        toast.error(
           "Registration may have failed.\n\nThe response from the server was not understood.  Please try logging in or try again later."
         );
       } else {
@@ -152,9 +184,27 @@ function Register({ credentials, setCredentials }) {
         <br />
         <input name="name" type="text" />
         <br />
-        Password (again):
+        Password:
         <br />
-        <input name="password" type="password" />
+        <input
+          name="password"
+          type="password"
+          value={password}
+          onChange={handlePasswordAssign}
+        />
+        <br />
+        <span>{passwordError}</span>
+        <br />
+        Re-Enter Password:
+        <br />
+        <input
+          name="confirmPassword"
+          type="password"
+          value={confirmPassword}
+          onChange={handleConfirmPasswordAssign}
+        />
+        <br />
+        <span>{passwordMismatchError}</span>
         <br />
         I am a:
         <br />

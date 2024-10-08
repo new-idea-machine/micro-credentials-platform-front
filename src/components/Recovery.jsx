@@ -2,12 +2,15 @@
 // IMPORTS
 // ============================================================================================
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
+import { validatePassword } from "../utils/validatePassword.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -32,6 +35,20 @@ console.assert(
 
 function Recovery({ credentials, setCredentials }) {
   const { setUserInfo } = useContext(UserContext);
+  const [passwordError, setPasswordError] = useState("");
+  const [password, setPassword] = useState(credentials ? credentials.password : "");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  function handlePasswordChange (event) {
+    const newPassword = event.target.value;
+    setPassword(newPassword);
+    const validation = validatePassword(newPassword);
+    setPasswordError(validation === true ? "" : validation.join(" "));
+  };
+
+  function handleConfirmPasswordChange (event) {
+    setConfirmPassword(event.target.value);
+  };
 
   /*******************************************************************************************/
 
@@ -61,14 +78,17 @@ function Recovery({ credentials, setCredentials }) {
 
     if (data.token === "") {
       dataIsValid = false;
-
-      window.alert('"Recovery Code" is required.');
+      toast.error('"Recovery Code" is required.');
     }
 
-    if (data.password !== data.password2) {
+    if (passwordError) {
       dataIsValid = false;
+      toast.error(passwordError);
+    }
 
-      window.alert("The two passwords don't match.");
+    if (password !== confirmPassword) {
+      dataIsValid = false;
+      toast.error("The two passwords don't match.");
     }
 
     if (dataIsValid) {
@@ -85,7 +105,7 @@ function Recovery({ credentials, setCredentials }) {
         "PATCH",
         `${serverURL}/auth/recovery`,
         headers,
-        JSON.stringify({ password: data.password })
+        JSON.stringify({ password })
       );
 
       /*
@@ -95,23 +115,25 @@ function Recovery({ credentials, setCredentials }) {
       */
 
       if (response === null) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe server could not be accessed.  Please try again later."
         );
       } else if (response.status === 401) {
-        window.alert("Password reset failed.\n\nThe recovery code was rejected.");
+        toast.error("Password reset failed.\n\nThe recovery code was rejected.");
       } else if (response.status === 406) {
-        ("Password reset failed.\n\nThe server didn't understand what was sent to it.  Please reload or try again later.");
+        toast.error(
+          "Password reset failed.\n\nThe server didn't understand what was sent to it. Please reload or try again later."
+        );
       } else if (response.status === 504) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe server couldn't access the database.  Please try again later."
         );
       } else if (!response.ok) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
       } else if (!result?.access_token) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe response from the server was not understood.  Please reload or try again later."
         );
       } else {
@@ -128,8 +150,7 @@ function Recovery({ credentials, setCredentials }) {
     <>
       <h1>Account Recovery</h1>
       <p>
-        An e-mail has been sent to <b>{credentials?.email}</b> with a recovery code. Please
-        check your inbox (and spam folder!) for this code and enter it here:
+        An e-mail has been sent to <b>{credentials?.email}</b> with a recovery code.  Please check your inbox (and spam folder!) for this code and enter it here:
       </p>
       <form id="RecoveryForm" onSubmit={submit}>
         Recovery Code:
@@ -141,12 +162,20 @@ function Recovery({ credentials, setCredentials }) {
         <input
           name="password"
           type="password"
-          defaultValue={credentials ? credentials.password : ""}
+          value={password}
+          onChange={handlePasswordChange}
         />
+        <br />
+        <span>{passwordError}</span>
         <br />
         Re-Enter Password:
         <br />
-        <input name="password2" type="password" defaultValue={""} />
+        <input
+          name="confirmPassword"
+          type="password"
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
+        />
         <br />
         <input type="submit" value="Reset Password" />
       </form>
@@ -161,7 +190,7 @@ function Recovery({ credentials, setCredentials }) {
         }
       >
         Log In with Different Credentials
-      </button>{" "}
+      </button>
     </>
   );
 }
