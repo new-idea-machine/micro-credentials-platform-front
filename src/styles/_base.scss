@@ -1,0 +1,21 @@
+// ============================================================================================
+// Global styles and resets
+// ============================================================================================
+
+// Import Variables and Mixins
+@import 'variables';
+@import 'fonts';
+@import 'colors';
+@import 'mixins';
+
+// Global Styles
+body {
+  font-family: $primary-font;
+  font-size: $font-size-base;
+  color: $black;
+  background-color: $white;
+  margin: 0;
+  padding: 0;
+}
+
+// Additional base styles

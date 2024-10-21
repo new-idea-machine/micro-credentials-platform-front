@@ -1,0 +1,28 @@
+// Import Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Import Custom Styles
+@import 'variables';
+@import 'fonts';
+@import 'colors';
+@import 'mixins';
+@import 'base';
+@import 'components';
+@import 'layout';
+
+// Example Button Style
+// .btn-primary {
+//   @include flex-center;
+//   background-color: $primary-color;
+//   color: #fff;
+//   padding: $spacer;
+//   border: none;
+//   border-radius: 0.25rem;
+//   text-align: center;
+//   text-decoration: none;
+//   display: inline-block;
+
+//   &:hover {
+//     background-color: darken($primary-color, 10%);
+//   }
+// }
