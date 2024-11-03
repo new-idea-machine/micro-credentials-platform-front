@@ -3,14 +3,13 @@
 // ============================================================================================
 
 import { useContext, useState } from "react";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext.jsx";
+import InputNewPassword from "./InputNewPassword.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
-import { validatePassword } from "../utils/validatePassword.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -35,20 +34,7 @@ console.assert(
 
 function Recovery({ credentials, setCredentials }) {
   const { setUserInfo } = useContext(UserContext);
-  const [passwordError, setPasswordError] = useState("");
-  const [password, setPassword] = useState(credentials ? credentials.password : "");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  function handlePasswordChange (event) {
-    const newPassword = event.target.value;
-    setPassword(newPassword);
-    const validation = validatePassword(newPassword);
-    setPasswordError(validation === true ? "" : validation.join(" "));
-  };
-
-  function handleConfirmPasswordChange (event) {
-    setConfirmPassword(event.target.value);
-  };
+  const [passwordIsValid, setPasswordIsValid] = useState();
 
   /*******************************************************************************************/
 
@@ -81,14 +67,9 @@ function Recovery({ credentials, setCredentials }) {
       toast.error('"Recovery Code" is required.');
     }
 
-    if (passwordError) {
+    if (!passwordIsValid) {
       dataIsValid = false;
-      toast.error(passwordError);
-    }
-
-    if (password !== confirmPassword) {
-      dataIsValid = false;
-      toast.error("The two passwords don't match.");
+      toast.error("Password is invalid.");
     }
 
     if (dataIsValid) {
@@ -105,7 +86,7 @@ function Recovery({ credentials, setCredentials }) {
         "PATCH",
         `${serverURL}/auth/recovery`,
         headers,
-        JSON.stringify({ password })
+        JSON.stringify({ password: data.password })
       );
 
       /*
@@ -150,31 +131,17 @@ function Recovery({ credentials, setCredentials }) {
     <>
       <h1>Account Recovery</h1>
       <p>
-        An e-mail has been sent to <b>{credentials?.email}</b> with a recovery code.  Please check your inbox (and spam folder!) for this code and enter it here:
+        An e-mail has been sent to <b>{credentials?.email}</b> with a recovery code. Please
+        check your inbox (and spam folder!) for this code and enter it here:
       </p>
       <form id="RecoveryForm" onSubmit={submit}>
         Recovery Code:
         <br />
         <input name="token" type="text" />
         <br />
-        Password:
-        <br />
-        <input
-          name="password"
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <br />
-        <span>{passwordError}</span>
-        <br />
-        Re-Enter Password:
-        <br />
-        <input
-          name="confirmPassword"
-          type="password"
-          value={confirmPassword}
-          onChange={handleConfirmPasswordChange}
+        <InputNewPassword
+          initialPassword={credentials ? credentials.password : ""}
+          setPasswordIsValid={setPasswordIsValid}
         />
         <br />
         <input type="submit" value="Reset Password" />

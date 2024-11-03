@@ -3,14 +3,13 @@
 // ============================================================================================
 
 import { useContext, useState } from "react";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext";
+import InputNewPassword from "./InputNewPassword.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
-import { validatePassword } from "../utils/validatePassword.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -35,23 +34,7 @@ console.assert(
 
 function Register({ credentials, setCredentials }) {
   const { setUserInfo } = useContext(UserContext);
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordMismatchError, setPasswordMismatchError] = useState("");
-  const [password, setPassword] = useState(credentials ? credentials.password : "");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  function handlePasswordAssign (event) {
-    const userPassword = event.target.value;
-    setPassword(userPassword);
-    const validation = validatePassword(userPassword);
-    setPasswordError(validation === true ? "" : validation.join(" "));
-    setPasswordMismatchError("");
-  };
-
-  function handleConfirmPasswordAssign (event) {
-    setConfirmPassword(event.target.value);
-    setPasswordMismatchError("");
-  };
+  const [passwordIsValid, setPasswordIsValid] = useState();
 
   /*******************************************************************************************/
 
@@ -87,23 +70,9 @@ function Register({ credentials, setCredentials }) {
       toast.error('"Name" is required.');
     }
 
-    const error = validatePassword(data.password);
-    if (error) {
+    if (!passwordIsValid) {
       dataIsValid = false;
-      setPasswordError(error);
-      toast.error(error);
-    }
-
-    if (passwordError) {
-      dataIsValid = false;
-      toast.error(passwordError);
-    }
-
-    if (password !== confirmPassword) {
-      dataIsValid = false;
-      const mismatchMessage = "The two passwords don't match.";
-      setPasswordMismatchError(mismatchMessage);
-      toast.error(mismatchMessage);
+      toast.error("Password is invalid.");
     }
 
     if (dataIsValid) {
@@ -184,27 +153,10 @@ function Register({ credentials, setCredentials }) {
         <br />
         <input name="name" type="text" />
         <br />
-        Password:
-        <br />
-        <input
-          name="password"
-          type="password"
-          value={password}
-          onChange={handlePasswordAssign}
+        <InputNewPassword
+          initialPassword={credentials ? credentials.password : ""}
+          setPasswordIsValid={setPasswordIsValid}
         />
-        <br />
-        <span>{passwordError}</span>
-        <br />
-        Re-Enter Password:
-        <br />
-        <input
-          name="confirmPassword"
-          type="password"
-          value={confirmPassword}
-          onChange={handleConfirmPasswordAssign}
-        />
-        <br />
-        <span>{passwordMismatchError}</span>
         <br />
         I am a:
         <br />

@@ -2,10 +2,12 @@
 // IMPORTS
 // ============================================================================================
 
+import { ToastContainer } from "react-toastify";
 import NavBar from "./components/NavBar";
-
-import "./App.css";
 import AppRoutes from "./AppRoutes";
+
+import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 
 // ============================================================================================
 // COMPONENT DEFINITION
@@ -16,6 +18,7 @@ function App() {
     <>
       <NavBar />
       <AppRoutes />
+      <ToastContainer />
     </>
   );
 }
