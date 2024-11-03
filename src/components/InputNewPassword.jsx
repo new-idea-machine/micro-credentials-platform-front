@@ -1,3 +1,19 @@
+/**
+ * @file React component for entering a new password in a form.
+ *
+ * @requires react
+ * @requires prop-types
+ */
+
+/**
+ * Template for useState setter functions that set the password's validity.  This would be
+ * useful for the parent element to know so that an invalid password isn't inadvertently
+ * accepted & submitted to the database.
+ *
+ * @callback SetValidity
+ * @param {boolean} isValid - "true" means the password is valid, "false" means that it isn't
+ */
+
 // ============================================================================================
 // IMPORTS
 // ============================================================================================
@@ -21,17 +37,14 @@ const passwordPolicy = {
 // GLOBAL FUNCTIONS
 // ============================================================================================
 
-/**
- * Validates a password against the defined password policy.
- *
- * @param {string} password - The password to be validated.
- * @throws {TypeError} - Throws an error if the password is not a string.
- * @returns {string[]|true} - Returns an array of error messages if the password does not meet the policy requirements, otherwise returns true.
- */
+/*
+Validates a password against the defined password policy.
+
+@param {string} password - The password to be validated.
+@returns {string[]} - An array of human-readable policy requirement violations (if any).
+*/
 function validatePassword(password) {
-  if (typeof password !== "string") {
-    throw new TypeError("Password must be a string.");
-  }
+  console.assert(typeof password === "string");
 
   const { minLength, hasUpperCase, hasLowerCase, hasNumber, hasSpecialChar } = passwordPolicy;
 
@@ -62,6 +75,20 @@ function validatePassword(password) {
 
 /*********************************************************************************************/
 
+/**
+ * Component for entering a new password in a form, including validation.
+ *
+ * This component should be placed inside a <form> element.  Two <input> elements will be added
+ * to the form -- one will be named "password" and the other "confirmPassword".  Their DOM's
+ * can be accessed by the usual mechanisms (typically, only the "password" element would be of
+ * interest).
+ *
+ * Validation is performed & updated with every keystroke.
+ *
+ * @param {string} initialPassword
+ * @param {SetValidity} setPasswordIsValid
+ * @returns {ReactNode}
+ */
 function InputNewPassword({ initialPassword, setPasswordIsValid }) {
   const [passwordErrors, setPasswordErrors] = useState(validatePassword(initialPassword));
   const [password, setPassword] = useState(initialPassword);
