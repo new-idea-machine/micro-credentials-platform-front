@@ -67,6 +67,8 @@ function Recovery({ credentials, setCredentials }) {
       toast.error('"Recovery Code" is required.');
     }
 
+    console.assert(typeof passwordIsValid === "boolean");
+
     if (!passwordIsValid) {
       dataIsValid = false;
       toast.error("Password is invalid.");

@@ -1,17 +1,18 @@
 /**
  * @file React component for entering a new password in a form.
  *
+ * @module
  * @requires react
  * @requires prop-types
  */
 
 /**
- * Template for useState setter functions that set the password's validity.  This would be
- * useful for the parent element to know so that an invalid password isn't inadvertently
+ * Template for `useState` setter functions that set the password's validity.  This would tell
+ * the parent element if the entered password is invalid so that it isn't inadvertently
  * accepted & submitted to the database.
  *
  * @callback SetValidity
- * @param {boolean} isValid - "true" means the password is valid, "false" means that it isn't
+ * @param {boolean} isValid - `true` means the password is valid, `false` means that it isn't
  */
 
 // ============================================================================================
@@ -22,9 +23,13 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 // ============================================================================================
-// GLOBAL CONSTANTS
+// MODULE CONSTANTS
 // ============================================================================================
 
+/**
+ * @constant
+ * @type {object}
+ */
 const passwordPolicy = {
   minLength: 10,
   hasUpperCase: true,
@@ -34,7 +39,7 @@ const passwordPolicy = {
 };
 
 // ============================================================================================
-// GLOBAL FUNCTIONS
+// MODULE FUNCTIONS
 // ============================================================================================
 
 /*
@@ -73,40 +78,52 @@ function validatePassword(password) {
 // COMPONENT DEFINITION
 // ============================================================================================
 
-/*********************************************************************************************/
-
 /**
  * Component for entering a new password in a form, including validation.
  *
- * This component should be placed inside a <form> element.  Two <input> elements will be added
- * to the form -- one will be named "password" and the other "confirmPassword".  Their DOM's
- * can be accessed by the usual mechanisms (typically, only the "password" element would be of
- * interest).
+ * This component should be placed inside a `<form>` element.  Two `<input>` elements will be
+ * added to the form -- one will be named `password` and the other `confirmPassword`.  Their
+ * DOM's can be accessed by the usual mechanisms (typically, only the `password` element would
+ * be of interest).
  *
  * Validation is performed & updated with every keystroke.
  *
- * @param {string} initialPassword
- * @param {SetValidity} setPasswordIsValid
- * @returns {ReactNode}
+ * @param {string} initialPassword - an initial value for the password
+ * @param {SetValidity} setPasswordIsValid - a `useState` setter function for telling the
+ * parent element whether the current password value is valid or not
+ * @returns {JSX.Element}
+ * @throws {TypeError}
  */
 function InputNewPassword({ initialPassword, setPasswordIsValid }) {
+  if (typeof initialPassword !== "string")
+    throw new TypeError('"initialPassword" must be a string.');
+
+  if (typeof setPasswordIsValid !== "function")
+    throw new TypeError('"setPasswordIsValid" must be a function.');
+
   const [passwordErrors, setPasswordErrors] = useState(validatePassword(initialPassword));
   const [password, setPassword] = useState(initialPassword);
   const [confirmPassword, setConfirmPassword] = useState("");
 
   function handlePasswordAssign(event) {
+    console.assert(event?.nativeEvent instanceof Event);
     const userPassword = event.target.value;
     setPassword(userPassword);
     const errors = validatePassword(userPassword);
+    console.assert(Array.isArray(errors));
     setPasswordErrors(errors);
     setPasswordIsValid(errors.length === 0 && userPassword === confirmPassword);
   }
 
   function handleConfirmPasswordAssign(event) {
+    console.assert(event?.nativeEvent instanceof Event);
+    console.assert(Array.isArray(passwordErrors));
     const userPassword = event.target.value;
     setConfirmPassword(userPassword);
     setPasswordIsValid(passwordErrors.length === 0 && userPassword === password);
   }
+
+  console.assert(Array.isArray(passwordErrors));
 
   return (
     <>

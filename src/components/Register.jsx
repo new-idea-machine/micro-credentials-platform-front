@@ -70,6 +70,8 @@ function Register({ credentials, setCredentials }) {
       toast.error('"Name" is required.');
     }
 
+    console.assert(typeof passwordIsValid === "boolean");
+
     if (!passwordIsValid) {
       dataIsValid = false;
       toast.error("Password is invalid.");
