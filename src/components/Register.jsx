@@ -2,9 +2,11 @@
 // IMPORTS
 // ============================================================================================
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext";
+import InputNewPassword from "./InputNewPassword.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
@@ -32,6 +34,7 @@ console.assert(
 
 function Register({ credentials, setCredentials }) {
   const { setUserInfo } = useContext(UserContext);
+  const [passwordIsValid, setPasswordIsValid] = useState();
 
   /*******************************************************************************************/
 
@@ -64,14 +67,14 @@ function Register({ credentials, setCredentials }) {
 
     if (data.name === "") {
       dataIsValid = false;
-
-      window.alert('"Name" is required.');
+      toast.error('"Name" is required.');
     }
 
-    if (data.password !== credentials.password) {
-      dataIsValid = false;
+    console.assert(typeof passwordIsValid === "boolean");
 
-      window.alert("That's not the same password!");
+    if (!passwordIsValid) {
+      dataIsValid = false;
+      toast.error("Password is invalid.");
     }
 
     if (dataIsValid) {
@@ -100,29 +103,29 @@ function Register({ credentials, setCredentials }) {
       */
 
       if (response === null) {
-        window.alert(
+        toast.error(
           "Registration failed.\n\nThe server could not be accessed.  Please try again later."
         );
       } else if (response.status === 403) {
-        window.alert(
+        toast.error(
           "Registration failed.\n\nA user with these login credentials is already registered."
         );
       } else if (response.status === 406) {
         console.log(`HTTP response code 406 -- "${result?.msg}"`);
-        window.alert(
+        toast.error(
           "Registration failed.\n\nThe server couldn't make sense of the data that was sent to it.  Please reload or try again later."
         );
       } else if (response.status === 504) {
-        window.alert(
+        toast.error(
           "Registration failed.\n\nThe server couldn't access the database.  Please try again later."
         );
       } else if (!response.ok) {
         console.log(`HTTP response code ${response.status} -- "${result?.msg}"`);
-        window.alert(
+        toast.error(
           "Registration failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
       } else if (result?.token_type !== "Bearer") {
-        window.alert(
+        toast.error(
           "Registration may have failed.\n\nThe response from the server was not understood.  Please try logging in or try again later."
         );
       } else {
@@ -152,9 +155,10 @@ function Register({ credentials, setCredentials }) {
         <br />
         <input name="name" type="text" />
         <br />
-        Password (again):
-        <br />
-        <input name="password" type="password" />
+        <InputNewPassword
+          initialPassword={credentials ? credentials.password : ""}
+          setPasswordIsValid={setPasswordIsValid}
+        />
         <br />
         I am a:
         <br />

@@ -2,9 +2,11 @@
 // IMPORTS
 // ============================================================================================
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import { UserContext } from "../contexts/UserContext.jsx";
+import InputNewPassword from "./InputNewPassword.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
@@ -32,6 +34,7 @@ console.assert(
 
 function Recovery({ credentials, setCredentials }) {
   const { setUserInfo } = useContext(UserContext);
+  const [passwordIsValid, setPasswordIsValid] = useState();
 
   /*******************************************************************************************/
 
@@ -61,14 +64,14 @@ function Recovery({ credentials, setCredentials }) {
 
     if (data.token === "") {
       dataIsValid = false;
-
-      window.alert('"Recovery Code" is required.');
+      toast.error('"Recovery Code" is required.');
     }
 
-    if (data.password !== data.password2) {
-      dataIsValid = false;
+    console.assert(typeof passwordIsValid === "boolean");
 
-      window.alert("The two passwords don't match.");
+    if (!passwordIsValid) {
+      dataIsValid = false;
+      toast.error("Password is invalid.");
     }
 
     if (dataIsValid) {
@@ -95,23 +98,25 @@ function Recovery({ credentials, setCredentials }) {
       */
 
       if (response === null) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe server could not be accessed.  Please try again later."
         );
       } else if (response.status === 401) {
-        window.alert("Password reset failed.\n\nThe recovery code was rejected.");
+        toast.error("Password reset failed.\n\nThe recovery code was rejected.");
       } else if (response.status === 406) {
-        ("Password reset failed.\n\nThe server didn't understand what was sent to it.  Please reload or try again later.");
+        toast.error(
+          "Password reset failed.\n\nThe server didn't understand what was sent to it. Please reload or try again later."
+        );
       } else if (response.status === 504) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe server couldn't access the database.  Please try again later."
         );
       } else if (!response.ok) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
       } else if (!result?.access_token) {
-        window.alert(
+        toast.error(
           "Password reset failed.\n\nThe response from the server was not understood.  Please reload or try again later."
         );
       } else {
@@ -136,17 +141,10 @@ function Recovery({ credentials, setCredentials }) {
         <br />
         <input name="token" type="text" />
         <br />
-        Password:
-        <br />
-        <input
-          name="password"
-          type="password"
-          defaultValue={credentials ? credentials.password : ""}
+        <InputNewPassword
+          initialPassword={credentials ? credentials.password : ""}
+          setPasswordIsValid={setPasswordIsValid}
         />
-        <br />
-        Re-Enter Password:
-        <br />
-        <input name="password2" type="password" defaultValue={""} />
         <br />
         <input type="submit" value="Reset Password" />
       </form>
@@ -161,7 +159,7 @@ function Recovery({ credentials, setCredentials }) {
         }
       >
         Log In with Different Credentials
-      </button>{" "}
+      </button>
     </>
   );
 }
