@@ -19,3 +19,16 @@ body {
 }
 
 // Additional base styles
+
+// Example class
+.box-class {
+  @extend %secondary-font;
+}
+
+// Example Container
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacer;
+}

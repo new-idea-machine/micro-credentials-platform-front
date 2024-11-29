@@ -1,5 +1,3 @@
-// Import Bootstrap
-
 // Import Custom Styles
 @use "./variables" as *;
 @use "./mixins" as *;
@@ -8,27 +6,5 @@
 @use "./fonts" as *;
 @use "./colors" as *;
 
-// Global styles and resets
-body {
-  @extend %primary-font;
-  // font-size: $font-size-base;
-  color: $black;
-  background-color: $white;
-  margin: 0;
-  padding: 0;
-}
-
-// Example class
-.box-class {
-  @extend %secondary-font;
-}
-
-// Example Container
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: $spacer;
-}
-
-// @use "bootstrap/scss/bootstrap" as *;
+// Import Bootstrap
+@use "../node_modules/bootstrap/scss/bootstrap" as *;
