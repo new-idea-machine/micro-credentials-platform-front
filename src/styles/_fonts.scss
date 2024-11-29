@@ -2,9 +2,8 @@
 // Font Variables
 // ============================================================================================
 
-@use './colors';
+@use "./colors";
 // @use './media'; // for responsive design
-
 
 // ============================================================================================
 // inter
@@ -12,9 +11,9 @@
 
 /* inter-italic-light */
 @font-face {
-  font-family: 'inter';
-  src: url('fonts/Inter-Regular.woff2') format('woff2'),
-       url('fonts/Inter-Regular.woff') format('woff');
+  font-family: "inter";
+  src: url("fonts/Inter-Regular.woff2") format("woff2"),
+    url("fonts/Inter-Regular.woff") format("woff");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -22,9 +21,9 @@
 
 /* inter-normal-light */
 @font-face {
-  font-family: 'inter';
-  src: url('fonts/Inter-Regular.woff') format('woff'),
-       url('fonts/Inter-Regular.woff2') format('woff2');
+  font-family: "inter";
+  src: url("fonts/Inter-Regular.woff") format("woff"),
+    url("fonts/Inter-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -32,9 +31,9 @@
 
 /* inter-normal-regular */
 @font-face {
-  font-family: 'inter';
-  src: url('fonts/Inter-Regular.woff') format('woff'),
-       url('fonts/Inter-Regular.woff2') format('woff2');
+  font-family: "inter";
+  src: url("fonts/Inter-Regular.woff") format("woff"),
+    url("fonts/Inter-Regular.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -42,9 +41,9 @@
 
 /* inter-normal-medium */
 @font-face {
-  font-family: 'inter';
-  src: url('fonts/Inter-Regular.woff') format('woff'),
-       url('fonts/Inter-Regular.woff2') format('woff2');
+  font-family: "inter";
+  src: url("fonts/Inter-Regular.woff") format("woff"),
+    url("fonts/Inter-Regular.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -52,14 +51,13 @@
 
 /* inter-normal-bold */
 @font-face {
-  font-family: 'inter';
-  src: url('fonts/Inter-Regular.woff') format('woff'),
-       url('fonts/Inter-Regular.woff2') format('woff2');
+  font-family: "inter";
+  src: url("fonts/Inter-Regular.woff") format("woff"),
+    url("fonts/Inter-Regular.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
-
 
 // ============================================================================================
 // OpenSans
@@ -67,9 +65,9 @@
 
 /* OpenSans-normal-light */
 @font-face {
-  font-family: 'OpenSans';
-  src: url('fonts/OpenSans-Regular.woff') format('woff'),
-       url('fonts/OpenSans-Regular.woff2') format('woff2');
+  font-family: "OpenSans";
+  src: url("fonts/OpenSans-Regular.woff") format("woff"),
+    url("fonts/OpenSans-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -77,9 +75,9 @@
 
 /* OpenSans-normal-bold */
 @font-face {
-  font-family: 'OpenSans';
-  src: url('fonts/OpenSans-Regular.woff') format('woff'),
-       url('fonts/OpenSans-Regular.woff2') format('woff2');
+  font-family: "OpenSans";
+  src: url("fonts/OpenSans-Regular.woff") format("woff"),
+    url("fonts/OpenSans-Regular.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -87,14 +85,19 @@
 
 // STYLES
 %primary-font {
-  font-family: 'inter', sans-serif;
+  font-family: "inter", sans-serif;
 }
 
 %secondary-font {
-  font-family: 'OpenSans', sans-serif;
+  font-family: "OpenSans", sans-serif;
 }
 
-@mixin primaryHeadingText($font-size: 36px, $font-weight: 500, $line-height: 43.5px, $color: colors.$black) {
+@mixin primaryHeadingText(
+  $font-size: 36px,
+  $font-weight: 500,
+  $line-height: 43.5px,
+  $color: colors.$black
+) {
   @extend %primary-font;
   font-size: $font-size;
   font-weight: $font-weight;
@@ -102,7 +105,12 @@
   color: $color;
 }
 
-@mixin primaryMainText($font-size: 24px, $font-weight: 400, $line-height: 29px, $color: colors.$black) {
+@mixin primaryMainText(
+  $font-size: 24px,
+  $font-weight: 400,
+  $line-height: 29px,
+  $color: colors.$black
+) {
   @extend %primary-font;
   font-size: $font-size;
   font-weight: $font-weight;
@@ -110,7 +118,12 @@
   color: $color;
 }
 
-@mixin secondaryHeadingText($font-size: 20px, $font-weight: 700, $line-height: 27px, $color: colors.$black) {
+@mixin secondaryHeadingText(
+  $font-size: 20px,
+  $font-weight: 700,
+  $line-height: 27px,
+  $color: colors.$black
+) {
   @extend %primary-font;
   font-size: $font-size;
   font-weight: $font-weight;
@@ -118,7 +131,12 @@
   color: $color;
 }
 
-@mixin secondaryMainText($font-size: 10px, $font-weight: 400, $line-height: 13.5px, $color: colors.$black) {
+@mixin secondaryMainText(
+  $font-size: 10px,
+  $font-weight: 400,
+  $line-height: 13.5px,
+  $color: colors.$black
+) {
   @extend %primary-font;
   font-size: $font-size;
   font-weight: $font-weight;

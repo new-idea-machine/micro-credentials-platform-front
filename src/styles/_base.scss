@@ -3,15 +3,15 @@
 // ============================================================================================
 
 // Import Variables and Mixins
-@import 'variables';
-@import 'fonts';
-@import 'colors';
-@import 'mixins';
+@use "./variables" as *;
+@use "./fonts" as *;
+@use "./colors" as *;
+@use "./mixins" as *;
 
 // Global Styles
 body {
-  font-family: $primary-font;
-  font-size: $font-size-base;
+  @extend %primary-font !optional;
+  // font-size: $font-size-base;
   color: $black;
   background-color: $white;
   margin: 0;
@@ -19,3 +19,16 @@ body {
 }
 
 // Additional base styles
+
+// Example class
+.box-class {
+  @extend %secondary-font;
+}
+
+// Example Container
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacer;
+}
