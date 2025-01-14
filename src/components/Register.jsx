@@ -88,6 +88,7 @@ function Register({ credentials, setCredentials }) {
       headers.append("Content-Type", "application/json");
 
       delete data.password;
+      delete data.confirmPassword;
 
       const [response, result] = await sendRequest(
         "POST",
