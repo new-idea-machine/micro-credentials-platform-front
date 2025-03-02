@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import FilePage from "./pages/FilePage";
 import { UserContext } from "./contexts/UserContext";
 import InstructorPage from "./pages/InstructorPage";
 
@@ -28,6 +29,19 @@ function AppRoutes() {
               <HomePage />
             ) : (
               <InstructorPage />
+            )
+          }
+        />
+        <Route
+          path="/coursecontent"
+          element={
+            userInfo == null ? (
+              <Navigate to="/login" />
+            ) :
+            userInfo?.user_data?.instructorData == null ? (
+              <Navigate to="/homepage" />
+            ) : (
+              <FilePage />
             )
           }
         />
