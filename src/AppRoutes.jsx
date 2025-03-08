@@ -9,39 +9,37 @@ import InstructorPage from "./pages/InstructorPage";
 
 function AppRoutes() {
   const { userInfo } = useContext(UserContext);
+
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={userInfo == null ? <LandingPage /> : <Navigate to="/homepage" />}
-        />
-        <Route
-          path="/login"
-          element={userInfo == null ? <LoginPage /> : <Navigate to="/homepage" />}
-        />
+        <Route path="/" element={userInfo ? <Navigate to="/homepage" /> : <LandingPage />} />
+        <Route path="/login" element={userInfo ? <Navigate to="/homepage" /> : <LoginPage />} />
         <Route
           path="/homepage"
           element={
-            userInfo == null ? (
-              <Navigate to="/login" />
-            ) : userInfo?.user_data?.instructorData == null ? (
-              <HomePage />
+            userInfo ? (
+              userInfo.user_data.instructorData ? (
+                <InstructorPage />
+              ) : (
+                <HomePage />
+              )
             ) : (
-              <InstructorPage />
+              <Navigate to="/" />
             )
           }
         />
         <Route
           path="/coursecontent"
           element={
-            userInfo == null ? (
-              <Navigate to="/login" />
-            ) :
-            userInfo?.user_data?.instructorData == null ? (
-              <Navigate to="/homepage" />
+            userInfo ? (
+              userInfo.user_data.instructorData ? (
+                <FilePage />
+              ) : (
+                <></>
+              )
             ) : (
-              <FilePage />
+              <Navigate to="/" />
             )
           }
         />
