@@ -22,6 +22,7 @@ function InstructorPage() {
         <button>Playlists</button>
         <button>Credentials</button>
         <button>Notifications</button>
+        <button onClick={() => setUserInfo(null)}>Go Back to Login Screen</button>
       </div>
       <div className="content-filter-add">
         <button>Add Content</button>
