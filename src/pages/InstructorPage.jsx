@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/UserContext";
 // COMPONENT DEFINITION
 
 function InstructorPage() {
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, setUserInfo } = useContext(UserContext);
   const [course, setCourse] = useState(null);
   const navigate = useNavigate();
 
@@ -23,6 +23,7 @@ function InstructorPage() {
         <button>Playlists</button>
         <button>Credentials</button>
         <button>Notifications</button>
+        <button onClick={() => setUserInfo(null)}>Go Back to Login Screen</button>
       </div>
       <div className="content-filter-add">
         <button>Add Content</button>
