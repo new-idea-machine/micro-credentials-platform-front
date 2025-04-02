@@ -50,8 +50,6 @@ function LandingPage() {
 
   const navigate = useNavigate();
 
-  console.log(coursesDisplay);
-
   return (
     <>
       <div>

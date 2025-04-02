@@ -6,6 +6,7 @@ import { useContext } from "react";
 import PropTypes from "prop-types";
 import validator from "validator";
 import { UserContext } from "../contexts/UserContext";
+import { User } from "../scripts/databaseSchemas.js";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
@@ -162,7 +163,7 @@ function Login({ credentials, setCredentials }) {
 
       headers.append("Authorization", `Basic ${btoa(data.email + ":" + data.password)}`);
 
-      const [response, result] = await sendRequest("GET", `${serverURL}/auth`, headers);
+      const [response, responseBody] = await sendRequest("GET", `${serverURL}/auth`, headers);
 
       /*
       Finally, if the server successfully found the user in the database and the password is
@@ -188,14 +189,14 @@ function Login({ credentials, setCredentials }) {
         window.alert(
           "Login failed.\n\nThis application is having a bad day.  Please reload or try again later."
         );
-      } else if (!result?.access_token) {
+      } else if (!responseBody?.access_token) {
         window.alert(
           "Login failed.\n\nThe response from the server was not understood.  Please reload or try again later."
         );
       } else {
-        const newUserInfo = result;
+        responseBody.user_data = new User(responseBody.user_data);
 
-        setUserInfo(newUserInfo);
+        setUserInfo(responseBody);
       }
     }
 

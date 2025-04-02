@@ -18,6 +18,7 @@
 
 import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { User } from "../scripts/databaseSchemas";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -56,7 +57,15 @@ function UserContextProvider({ children }) {
 
     const storedUserInfo = sessionStorage.getItem(userInfoKey);
 
-    return storedUserInfo ? JSON.parse(storedUserInfo) : null;
+    if (storedUserInfo) {
+      const parsedUserInfo = JSON.parse(storedUserInfo);
+
+      parsedUserInfo.user_data = new User(parsedUserInfo.user_data);
+
+      return parsedUserInfo;
+    } else {
+      return null;
+    }
   });
 
   useEffect(() => {

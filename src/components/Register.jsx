@@ -10,6 +10,7 @@ import InputNewPassword from "./InputNewPassword.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
+import { User } from "../scripts/databaseSchemas.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -130,7 +131,11 @@ function Register({ credentials, setCredentials }) {
           "Registration may have failed.\n\nThe response from the server was not understood.  Please try logging in or try again later."
         );
       } else {
-        setUserInfo(result);
+        const newUserInfo = result;
+
+        newUserInfo.user_data = new User(newUserInfo.user_data);
+
+        setUserInfo(newUserInfo);
       }
     }
 
