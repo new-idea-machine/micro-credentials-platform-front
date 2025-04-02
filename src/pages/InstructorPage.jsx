@@ -1,5 +1,6 @@
 // IMPORTS
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 import CourseCard from "../components/CourseCard";
 import { UserContext } from "../contexts/UserContext";
@@ -7,16 +8,16 @@ import { UserContext } from "../contexts/UserContext";
 // COMPONENT DEFINITION
 
 function InstructorPage() {
-  const { userInfo, setUserInfo } = useContext(UserContext);
+  const { userInfo } = useContext(UserContext);
   const [course, setCourse] = useState(null);
+  const navigate = useNavigate();
 
-  const userCourses = userInfo?.user_data?.learnerData?.map
-    ? userInfo.user_data.learnerData
-    : [];
+  const userCourses = userInfo ? userInfo.user_data.learnerData.courses : [];
 
   return (
     <>
       <div className="left-pane">
+        <button onClick={() => navigate("/coursecontent")}>Course Creation</button>
         <button>All Content</button>
         <button>Folders</button>
         <button>Playlists</button>

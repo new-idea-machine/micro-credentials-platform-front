@@ -10,6 +10,7 @@ import InputNewPassword from "./InputNewPassword.jsx";
 
 import { sendRequest } from "../scripts/sendrequest.js";
 import { getFormData } from "../scripts/getFormData.js";
+import { User } from "../scripts/databaseSchemas.js";
 
 // ============================================================================================
 // GLOBAL CONSTANTS
@@ -121,6 +122,8 @@ function Recovery({ credentials, setCredentials }) {
         );
       } else {
         const newUserInfo = result;
+
+        newUserInfo.user_data = new User(newUserInfo.user_data);
 
         setUserInfo(newUserInfo);
       }
