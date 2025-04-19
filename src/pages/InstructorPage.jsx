@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/UserContext";
 // COMPONENT DEFINITION
 
 function InstructorPage() {
-  const { userInfo, setUserInfo } = useContext(UserContext);
+  const { userInfo } = useContext(UserContext);
   const [course, setCourse] = useState(null);
   const navigate = useNavigate();
 
