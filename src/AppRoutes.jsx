@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import FilePage from "./pages/FilePage";
+import CourseCreationPage from "./pages/CourseCreationPage";
 import { UserContext } from "./contexts/UserContext";
 import InstructorPage from "./pages/InstructorPage";
 
@@ -34,7 +35,8 @@ function AppRoutes() {
           element={
             userInfo ? (
               userInfo.user_data.instructorData ? (
-                <FilePage />
+                // <FilePage />
+                <CourseCreationPage />
               ) : (
                 <></>
               )

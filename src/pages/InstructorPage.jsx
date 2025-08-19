@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/UserContext";
 // COMPONENT DEFINITION
 
 function InstructorPage() {
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, setUserInfo } = useContext(UserContext);
   const [course, setCourse] = useState(null);
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ function InstructorPage() {
         <button onClick={() => setUserInfo(null)}>Go Back to Login Screen</button>
       </div>
       <div className="content-filter-add">
-        <button>Add Content</button>
+        <button onClick={() => navigate("/coursecreation")}>Add Content</button>
       </div>
       <div className="courses-content">
         <ResponsiveGrid minColumnWidth="329px" rowGap="43px">

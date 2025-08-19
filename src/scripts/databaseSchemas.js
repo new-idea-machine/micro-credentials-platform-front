@@ -84,7 +84,7 @@ class User {
   }
 
   /**
-   * Is user is an instructor?
+   * Is user an instructor?
    *
    * @returns {boolean} `true` if the user is an instructor, `false` if not
    */
